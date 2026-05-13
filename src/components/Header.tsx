@@ -21,7 +21,7 @@ export default function Header() {
           href="https://brushfire.com/jchcministries/jchcfest2026/626483/tickets"
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0 bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white text-xs font-bold uppercase tracking-widest px-3 py-2 rounded transition-colors"
+          className="shrink-0 border border-white hover:bg-white/10 active:bg-white/20 text-white text-xs font-bold uppercase tracking-widest px-3 py-2 rounded transition-colors"
           aria-label="Buy tickets for JCHC Fest 2026"
         >
           Tickets

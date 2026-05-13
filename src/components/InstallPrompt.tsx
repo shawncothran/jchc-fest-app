@@ -211,7 +211,7 @@ export default function InstallPrompt() {
             {variant === "android" && (
               <button
                 onClick={() => void handleInstall()}
-                className="text-xs font-bold uppercase tracking-widest bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white px-3 py-1.5 rounded transition-colors"
+                className="text-xs font-bold uppercase tracking-widest border border-white hover:bg-white/10 active:bg-white/20 text-white px-3 py-1.5 rounded transition-colors"
               >
                 Install
               </button>
@@ -219,7 +219,7 @@ export default function InstallPrompt() {
             {(variant === "ios" || variant === "other") && (
               <button
                 onClick={() => setIosExpanded((v) => !v)}
-                className="text-xs font-bold uppercase tracking-widest bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white px-3 py-1.5 rounded transition-colors"
+                className="text-xs font-bold uppercase tracking-widest border border-white hover:bg-white/10 active:bg-white/20 text-white px-3 py-1.5 rounded transition-colors"
               >
                 {iosExpanded ? "Got it" : "How to"}
               </button>

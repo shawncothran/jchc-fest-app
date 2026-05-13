@@ -18,7 +18,7 @@ export default function SetCard({
     <article
       className={`relative rounded-xl transition-colors ${
         isActive
-          ? "bg-zinc-800 border-2 border-brand-600"
+          ? "bg-zinc-800 border-2 border-white"
           : "border border-zinc-800 bg-zinc-900 hover:border-zinc-700"
       }`}
       aria-label={`${set.name}, ${set.startTime} to ${set.endTime}`}
@@ -26,10 +26,10 @@ export default function SetCard({
       {isActive && (
         <div className="absolute top-3 left-3 flex items-center gap-1.5">
           <span
-            className="inline-block w-2 h-2 rounded-full bg-brand-500 animate-pulse"
+            className="inline-block w-2 h-2 rounded-full bg-white animate-pulse"
             aria-hidden="true"
           />
-          <span className="text-xs font-bold text-brand-400 uppercase tracking-widest">
+          <span className="text-xs font-bold text-white uppercase tracking-widest">
             Live Now
           </span>
         </div>

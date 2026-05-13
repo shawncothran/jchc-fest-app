@@ -1,12 +1,8 @@
 /**
- * scripts/generate-icons.js
+ * scripts/generate-icons.cjs
  *
- * Generates placeholder PWA icon PNGs using only Node.js built-ins.
- * These are solid #09090b (zinc-950) squares with a red "J" approximated
- * via a centered lighter block — good enough for PWA install / browser tabs.
- *
- * Replace public/icons/*.png with real artwork before launch.
- * Run with: node scripts/generate-icons.js
+ * Generates clean, minimal PWA icons with a bold geometric "J" letterform.
+ * Dark background (#09090b) with white letter — monochrome and sparse.
  */
 
 const zlib = require("zlib");
@@ -50,10 +46,10 @@ function pngChunk(type, data) {
 }
 
 /**
- * Creates a solid-color PNG with an approximate "J" letter centered.
- * The "J" is drawn as white/light pixels in a simple pixel font pattern.
+ * Creates a minimal icon with bold geometric "J" letterform.
+ * Dark background (#09090b) with white letter.
  */
-function createIconPNG(size, bgR, bgG, bgB, fgR, fgG, fgB) {
+function createIconPNG(size) {
   const sig = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 
   const ihdr = pngChunk(
@@ -65,9 +61,18 @@ function createIconPNG(size, bgR, bgG, bgB, fgR, fgG, fgB) {
     ]),
   );
 
-  // Build raw RGBA pixels — each row: [filter=0, r,g,b, r,g,b, ...]
+  // Build raw RGB pixels
   const rowBytes = 1 + size * 3;
-  const raw = Buffer.alloc(size * rowBytes, 0);
+  const raw = Buffer.alloc(size * rowBytes * size, 0);
+
+  // Dark background: #09090b
+  const bgR = 9,
+    bgG = 9,
+    bgB = 11;
+  // White foreground: #ffffff
+  const fgR = 255,
+    fgG = 255,
+    fgB = 255;
 
   // Fill background
   for (let y = 0; y < size; y++) {
@@ -80,47 +85,48 @@ function createIconPNG(size, bgR, bgG, bgB, fgR, fgG, fgB) {
     }
   }
 
-  // Draw a simple "J" using relative coordinates scaled to icon size
-  // J pixel map on a 7×10 grid, scaled proportionally to icon size
-  const jMap = [
-    [3, 0],
-    [4, 0],
-    [5, 0],
-    [4, 1],
-    [4, 2],
-    [4, 3],
-    [4, 4],
-    [4, 5],
-    [2, 6],
-    [4, 6],
-    [3, 7],
-    [4, 7],
-  ];
-
-  const gridW = 7;
-  const gridH = 10;
-  const padding = Math.round(size * 0.2);
-  const usable = size - padding * 2;
-  const cellW = usable / gridW;
-  const cellH = usable / gridH;
-
-  for (const [gx, gy] of jMap) {
-    const px = Math.round(padding + gx * cellW);
-    const py = Math.round(padding + gy * cellH);
-    const pw = Math.max(1, Math.round(cellW));
-    const ph = Math.max(1, Math.round(cellH));
-
-    for (let dy = 0; dy < ph; dy++) {
-      for (let dx = 0; dx < pw; dx++) {
-        const x = px + dx;
-        const y = py + dy;
-        if (x < 0 || x >= size || y < 0 || y >= size) continue;
+  // Helper: draw filled rectangle
+  function fillRect(x1, y1, x2, y2) {
+    for (
+      let y = Math.max(0, Math.floor(y1));
+      y <= Math.min(size - 1, Math.floor(y2));
+      y++
+    ) {
+      for (
+        let x = Math.max(0, Math.floor(x1));
+        x <= Math.min(size - 1, Math.floor(x2));
+        x++
+      ) {
         const i = y * rowBytes + 1 + x * 3;
         raw[i] = fgR;
         raw[i + 1] = fgG;
         raw[i + 2] = fgB;
       }
     }
+  }
+
+  // Draw bold "J": thick vertical stroke + bottom hook
+  const strokeW = Math.round(size * 0.18); // ~20% of size
+  const margin = Math.round(size * 0.2);
+  const xCenter = size * 0.5;
+  const yTop = margin;
+  const yBottom = size - margin;
+  const xLeft = xCenter - strokeW / 2;
+  const xRight = xCenter + strokeW / 2;
+
+  // Vertical stroke
+  fillRect(xLeft, yTop, xRight, yBottom * 0.7);
+
+  // Bottom hook (curve sweep)
+  const hookStartY = yBottom * 0.65;
+  const hookEndY = yBottom;
+  const hookRadius = strokeW * 1.2;
+
+  for (let y = hookStartY; y <= hookEndY; y++) {
+    const fy = (y - hookStartY) / (hookEndY - hookStartY); // 0 to 1
+    const rx = Math.sqrt(1 - fy * fy) * hookRadius; // Quarter arc
+    const cx = xLeft - rx;
+    fillRect(cx - strokeW / 2, y, cx + strokeW / 2, y);
   }
 
   const idat = pngChunk("IDAT", zlib.deflateSync(raw, { level: 6 }));
@@ -134,10 +140,6 @@ function createIconPNG(size, bgR, bgG, bgB, fgR, fgG, fgB) {
 const outDir = path.join(__dirname, "..", "public", "icons");
 fs.mkdirSync(outDir, { recursive: true });
 
-// Background: #09090b (zinc-950), Foreground: #dc2626 (red-600)
-const BG = [9, 9, 11];
-const FG = [231, 54, 104];
-
 const icons = [
   { name: "icon-192x192.png", size: 192 },
   { name: "icon-512x512.png", size: 512 },
@@ -145,11 +147,11 @@ const icons = [
 ];
 
 for (const { name, size } of icons) {
-  const buf = createIconPNG(size, ...BG, ...FG);
+  const buf = createIconPNG(size);
   const outPath = path.join(outDir, name);
   fs.writeFileSync(outPath, buf);
   console.log(`✓ ${name} (${size}×${size})`);
 }
 
-console.log("\nDone! Replace these with real artwork before launch.");
+console.log("\nDone! Minimal monochrome icons generated.");
 console.log("Icons written to: public/icons/");
