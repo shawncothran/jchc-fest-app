@@ -244,7 +244,7 @@ function ScheduleContent({
         ) : null}
       </DragOverlay>
 
-      {selectedSet?.youtubeUrl ? (
+      {selectedSet && selectedSet.youtubeUrl ? (
         <YouTubeModal
           bandName={selectedSet.name}
           youtubeUrl={selectedSet.youtubeUrl}

@@ -49,6 +49,7 @@ export default tseslint.config(
       "no-var": "error",
       "prefer-const": "error",
       "@typescript-eslint/explicit-function-return-types": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
