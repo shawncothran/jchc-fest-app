@@ -45,23 +45,34 @@ export default function YouTubeModal({
     return () => window.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  // Trigger iOS autoplay via YouTube API
+  // Trigger iOS autoplay via YouTube API + try multiple strategies
   useEffect(() => {
     if (!isOpen || !iframeRef.current) {
       return;
     }
 
-    // iOS requires a small delay and the YouTube API to be loaded
+    // Try multiple strategies to trigger playback
     const timer = setTimeout(() => {
       if (iframeRef.current?.contentWindow) {
-        // Send postMessage to trigger play on the iframe
-        // This works better for iOS than relying on autoplay parameter alone
+        // Strategy 1: YouTube IFrame API postMessage
         iframeRef.current.contentWindow.postMessage(
           { event: "command", func: "playVideo" },
           "*"
         );
+
+        // Strategy 2: Try focus + keyboard event
+        iframeRef.current.focus();
+
+        // Strategy 3: Reload with updated src to trigger autoplay
+        const currentSrc = iframeRef.current.src;
+        if (!currentSrc.includes("autoplay=1")) {
+          const newSrc = currentSrc.includes("?")
+            ? `${currentSrc}&autoplay=1`
+            : `${currentSrc}?autoplay=1`;
+          iframeRef.current.src = newSrc;
+        }
       }
-    }, 100);
+    }, 50);
 
     return () => clearTimeout(timer);
   }, [isOpen]);
@@ -117,9 +128,9 @@ export default function YouTubeModal({
               <iframe
                 ref={iframeRef}
                 className="absolute inset-0 w-full h-full"
-                src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&enablejsapi=1`}
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&playsinline=1&mute=0`}
                 title={bandName}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                 allowFullScreen
               />
             </div>
