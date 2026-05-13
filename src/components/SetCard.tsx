@@ -76,8 +76,8 @@ export default function SetCard({
           onClick={onToggle}
           aria-label={
             isFavorite
-              ? `Remove ${set.name} from must-see`
-              : `Add ${set.name} to must-see`
+              ? `Remove ${set.name} from can&apos;t miss`
+              : `Add ${set.name} to can&apos;t miss`
           }
           aria-pressed={isFavorite}
           className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90 ${

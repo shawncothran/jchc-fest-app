@@ -109,7 +109,7 @@ function computeCountdown(now: Date, favorites: Set<number>): CountdownState {
       const next: ScheduleSet = upcomingFavs[0];
       const nextTime = festivalTime(next.startTime);
       return {
-        label: "Next must-see",
+        label: "Next can&apos;t miss",
         value: formatMs(nextTime.getTime() - nowMs),
         sub: next.name,
       };

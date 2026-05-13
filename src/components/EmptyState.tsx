@@ -21,7 +21,7 @@ export default function EmptyState({ onShowAll }: EmptyStateProps) {
         />
       </svg>
       <h2 className="font-display text-xl text-white mb-2">
-        No Must-See Sets Yet
+        No Can&apos;t Miss Sets Yet
       </h2>
       <p className="text-zinc-400 text-sm max-w-xs mb-6 leading-relaxed">
         Tap the heart on any set to save it here. Build your personal lineup.
