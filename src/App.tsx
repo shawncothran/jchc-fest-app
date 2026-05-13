@@ -107,10 +107,11 @@ function ScheduleContent({
   const [previewPosition, setPreviewPosition] = useState<number | null>(null);
 
   // Sensors: mouse for desktop, touch with delay for iOS (prevents scroll hijack)
+  // On iOS, we use a more conservative touch sensor config to avoid event handler bugs
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, {
-      activationConstraint: { delay: 200, tolerance: 8 },
+      activationConstraint: { delay: 250, tolerance: 10 },
     })
   );
 

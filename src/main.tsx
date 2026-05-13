@@ -3,6 +3,22 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 
+// Handle unhandled promise rejections from dnd-kit on iOS
+window.addEventListener("unhandledrejection", (event) => {
+  // Check if it's the dnd-kit iOS payload error
+  const reason = event.reason as { message?: string } | undefined;
+  if (
+    typeof reason === "object" &&
+    reason?.message?.includes("Cannot read properties of undefined")
+  ) {
+    console.warn(
+      "[iOS dnd-kit] Suppressing known drag-kit iOS event bug",
+      reason
+    );
+    event.preventDefault();
+  }
+});
+
 class ErrorBoundary extends Component<
   { children: ReactNode },
   { error: Error | null }
