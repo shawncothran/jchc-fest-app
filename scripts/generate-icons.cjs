@@ -58,7 +58,7 @@ function createIconPNG(size) {
       uint32BE(size),
       uint32BE(size),
       Buffer.from([8, 2, 0, 0, 0]),
-    ]),
+    ])
   );
 
   // Build raw RGB pixels

@@ -18,13 +18,13 @@ export default function SetCard({
     <article
       className={`relative rounded-xl transition-colors ${
         isActive
-          ? "bg-zinc-800 border-2 border-white"
+          ? "bg-zinc-800 border-2 border-brand-500"
           : "border border-zinc-800 bg-zinc-900 hover:border-zinc-700"
       }`}
       aria-label={`${set.name}, ${set.startTime} to ${set.endTime}`}
     >
       {isActive && (
-        <div className="absolute top-3 left-3 flex items-center gap-1.5">
+        <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-brand-600 px-2 py-1 rounded-full">
           <span
             className="inline-block w-2 h-2 rounded-full bg-white animate-pulse"
             aria-hidden="true"

@@ -21,7 +21,7 @@ export default function FilterTabs({
             onClick={() => onChange("all")}
             className={`flex-1 py-3 text-sm font-bold uppercase tracking-widest transition-colors border-b-4 ${
               filter === "all"
-                ? "text-white border-b-white"
+                ? "text-white border-b-brand-500"
                 : "text-zinc-500 border-transparent hover:text-zinc-300"
             }`}
           >
@@ -33,7 +33,7 @@ export default function FilterTabs({
             onClick={() => onChange("favorites")}
             className={`flex-1 py-3 text-sm font-bold uppercase tracking-widest transition-colors border-b-4 flex items-center justify-center gap-2 ${
               filter === "favorites"
-                ? "text-white border-b-white"
+                ? "text-white border-b-brand-500"
                 : "text-zinc-500 border-transparent hover:text-zinc-300"
             }`}
           >
@@ -42,7 +42,7 @@ export default function FilterTabs({
               <span
                 className={`text-xs font-bold px-1.5 py-0.5 rounded-full min-w-5 text-center leading-none ${
                   filter === "favorites"
-                    ? "bg-zinc-700 text-white"
+                    ? "bg-brand-600 text-white"
                     : "bg-zinc-700 text-zinc-300"
                 }`}
                 aria-label={`${favoriteCount} favorited`}
