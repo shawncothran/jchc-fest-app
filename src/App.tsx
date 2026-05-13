@@ -21,6 +21,7 @@ import YouTubeModal from "./components/YouTubeModal";
 import {
   FESTIVAL_DATE,
   FESTIVAL_DATE_DISPLAY,
+  FESTIVAL_NAME,
   FESTIVAL_YEAR,
   sets,
   type ScheduleSet,
@@ -256,6 +257,28 @@ function ScheduleContent({
 }
 
 export default function App() {
+  useEffect(() => {
+    document.title = `${FESTIVAL_NAME} ${FESTIVAL_YEAR} — Schedule`;
+    const metaDescription = document.querySelector(
+      'meta[name="description"]'
+    ) as HTMLMetaElement;
+    const ogTitle = document.querySelector(
+      'meta[property="og:title"]'
+    ) as HTMLMetaElement;
+    const ogDescription = document.querySelector(
+      'meta[property="og:description"]'
+    ) as HTMLMetaElement;
+    if (metaDescription) {
+      metaDescription.content = `Official schedule for ${FESTIVAL_NAME} ${FESTIVAL_YEAR}. Heavy music, Christ at the center. ${FESTIVAL_DATE_DISPLAY}.`;
+    }
+    if (ogTitle) {
+      ogTitle.content = `${FESTIVAL_NAME} ${FESTIVAL_YEAR} — Schedule`;
+    }
+    if (ogDescription) {
+      ogDescription.content = `Heavy music, Christ at the center. ${FESTIVAL_DATE_DISPLAY}, ${FESTIVAL_YEAR}.`;
+    }
+  }, []);
+
   const { favorites, isFavorite, toggle, count } = useFavorites();
   const [filter, setFilter] = useState<FilterValue>("all");
   const [notifStatus, setNotifStatus] = useState<

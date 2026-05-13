@@ -22,7 +22,7 @@ export default function Header() {
           target="_blank"
           rel="noopener noreferrer"
           className="shrink-0 bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white text-xs font-bold uppercase tracking-widest px-3 py-2 rounded transition-colors"
-          aria-label="Buy tickets for JCHC Fest 2026"
+          aria-label={`Buy tickets for ${FESTIVAL_NAME} ${FESTIVAL_YEAR}`}
         >
           Tickets
         </a>

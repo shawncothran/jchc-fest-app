@@ -2,6 +2,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
+import { FESTIVAL_NAME, FESTIVAL_YEAR } from "./src/data/schedule";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,10 +13,9 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "icons/*.png"],
       manifest: {
-        name: "JCHC Fest 2026 — Schedule",
-        short_name: "JCHC Fest",
-        description:
-          "Official schedule app for JCHC Fest 2026. Heavy music, Christ at the center.",
+        name: `${FESTIVAL_NAME} ${FESTIVAL_YEAR} — Schedule`,
+        short_name: FESTIVAL_NAME,
+        description: `Official schedule app for ${FESTIVAL_NAME} ${FESTIVAL_YEAR}. Heavy music, Christ at the center.`,
         theme_color: "#09090b",
         background_color: "#09090b",
         display: "standalone",
