@@ -202,7 +202,8 @@ function ScheduleContent({
 
         <footer className="max-w-2xl mx-auto px-4 py-10 text-center text-xs text-zinc-600">
           <p>
-            JCHC Fest · {FESTIVAL_DATE_DISPLAY}, {FESTIVAL_YEAR} ·{" "}
+            JCHC Fest · {FESTIVAL_DATE_DISPLAY}, {FESTIVAL_YEAR} · Heavy music,
+            Christ at the center ·{" "}
             <a
               href="https://www.jchcfest.com"
               target="_blank"

@@ -15,7 +15,7 @@ export default defineConfig({
         name: "JCHC Fest 2026 — Schedule",
         short_name: "JCHC Fest",
         description:
-          "Official schedule app for JCHC Fest 2026. One day, one stage, all hardcore.",
+          "Official schedule app for JCHC Fest 2026. Heavy music, Christ at the center.",
         theme_color: "#09090b",
         background_color: "#09090b",
         display: "standalone",
