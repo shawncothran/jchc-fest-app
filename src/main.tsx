@@ -32,6 +32,16 @@ class ErrorBoundary extends Component<
           >
             Try refreshing the page.
           </p>
+          <p
+            style={{
+              fontSize: "0.75rem",
+              color: "#52525b",
+              marginTop: "1rem",
+              wordBreak: "break-all",
+            }}
+          >
+            {String(this.state.error)}
+          </p>
         </div>
       );
     }
