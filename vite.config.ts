@@ -2,7 +2,10 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
-import { FESTIVAL_NAME, FESTIVAL_YEAR } from "./src/data/schedule";
+
+// Update these when schedule.ts constants change each year
+const FESTIVAL_NAME = "JCHC Fest";
+const FESTIVAL_YEAR = "2026";
 
 // https://vite.dev/config/
 export default defineConfig({
