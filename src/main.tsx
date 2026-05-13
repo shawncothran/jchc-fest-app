@@ -1,10 +1,48 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { Component, StrictMode, type ErrorInfo, type ReactNode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
 
-createRoot(document.getElementById('root')!).render(
+class ErrorBoundary extends Component<
+  { children: ReactNode },
+  { error: Error | null }
+> {
+  state = { error: null };
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error("[ErrorBoundary]", error, info);
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div
+          style={{ padding: "2rem", color: "#fff", fontFamily: "sans-serif" }}
+        >
+          <p style={{ color: "#e83d72", fontWeight: "bold" }}>
+            Something went wrong.
+          </p>
+          <p
+            style={{
+              fontSize: "0.85rem",
+              color: "#71717a",
+              marginTop: "0.5rem",
+            }}
+          >
+            Try refreshing the page.
+          </p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  </StrictMode>
+);

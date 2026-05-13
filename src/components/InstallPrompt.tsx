@@ -36,9 +36,25 @@ function isStandalone(): boolean {
 
 const DISMISSED_KEY = "jchcfest-install-dismissed";
 
+function isDismissed(): boolean {
+  try {
+    return !!localStorage.getItem(DISMISSED_KEY);
+  } catch {
+    return false;
+  }
+}
+
+function setDismissed(): void {
+  try {
+    localStorage.setItem(DISMISSED_KEY, "1");
+  } catch {
+    // localStorage may be unavailable
+  }
+}
+
 export default function InstallPrompt() {
   const [variant, setVariant] = useState<PromptVariant>(() => {
-    if (isStandalone() || localStorage.getItem(DISMISSED_KEY)) {
+    if (isStandalone() || isDismissed()) {
       return null;
     }
     if (isIosSafari()) {
@@ -55,7 +71,7 @@ export default function InstallPrompt() {
     if (variant !== null) {
       return;
     }
-    if (isStandalone() || localStorage.getItem(DISMISSED_KEY)) {
+    if (isStandalone() || isDismissed()) {
       return;
     }
 
@@ -83,7 +99,7 @@ export default function InstallPrompt() {
   }, [variant]);
 
   function dismiss() {
-    localStorage.setItem(DISMISSED_KEY, "1");
+    setDismissed();
     setVariant(null);
   }
 
