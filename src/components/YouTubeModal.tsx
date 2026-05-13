@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface YouTubeModalProps {
   bandName: string;
@@ -13,6 +13,7 @@ export default function YouTubeModal({
   isOpen,
   onClose,
 }: YouTubeModalProps) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   // Extract video ID from various YouTube URL formats
   function extractVideoId(url: string): string | null {
     const patterns = [
@@ -43,6 +44,27 @@ export default function YouTubeModal({
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
+
+  // Trigger iOS autoplay via YouTube API
+  useEffect(() => {
+    if (!isOpen || !iframeRef.current) {
+      return;
+    }
+
+    // iOS requires a small delay and the YouTube API to be loaded
+    const timer = setTimeout(() => {
+      if (iframeRef.current?.contentWindow) {
+        // Send postMessage to trigger play on the iframe
+        // This works better for iOS than relying on autoplay parameter alone
+        iframeRef.current.contentWindow.postMessage(
+          { event: "command", func: "playVideo" },
+          "*"
+        );
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [isOpen]);
 
   if (!isOpen) {
     return null;
@@ -93,8 +115,9 @@ export default function YouTubeModal({
           {videoId ? (
             <div className="relative w-full bg-black pt-[56.25%]">
               <iframe
+                ref={iframeRef}
                 className="absolute inset-0 w-full h-full"
-                src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`}
+                src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&enablejsapi=1`}
                 title={bandName}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
