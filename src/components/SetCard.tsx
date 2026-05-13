@@ -55,7 +55,7 @@ export default function SetCard({
           </div>
         )}
 
-        <div className="flex-1 min-w-0 flex items-start gap-2">
+        <div className="flex-1 min-w-0 flex items-center gap-2">
           {set.youtubeUrl ? (
             <button
               onClick={onPlayVideo}
@@ -102,7 +102,7 @@ export default function SetCard({
             <button
               onClick={onPlayVideo}
               aria-label={`Watch ${set.name} on YouTube`}
-              className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90 text-zinc-500 bg-zinc-800 hover:text-zinc-300 hover:bg-zinc-700 hover:cursor-pointer mt-0.5"
+              className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90 text-zinc-500 bg-zinc-800 hover:text-zinc-300 hover:bg-zinc-700 hover:cursor-pointer"
             >
               <svg
                 viewBox="0 0 24 24"
