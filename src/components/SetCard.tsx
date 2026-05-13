@@ -56,24 +56,55 @@ export default function SetCard({
           </div>
         )}
 
-        {/* Main content */}
-        <div className="flex-1 min-w-0">
-          <p className="text-xs text-zinc-500 tabular-nums">
-            {set.startTime}
-            <span className="mx-1 text-zinc-700">–</span>
-            {set.endTime}
-          </p>
-          <h2 className="font-display text-white text-sm leading-tight tracking-tighter truncate">
-            {set.name}
-          </h2>
-          {set.description && (
-            <p className="mt-1 text-xs text-zinc-500 leading-snug line-clamp-2">
-              {set.description}
-            </p>
+        {/* Main content — flex container for play button + text info */}
+        <div className="flex-1 min-w-0 flex items-start gap-2">
+          {/* Video play button — only if available */}
+          {set.youtubeUrl && (
+            <button
+              onClick={onPlayVideo}
+              aria-label={`Watch ${set.name} on YouTube`}
+              className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90 text-zinc-500 hover:text-zinc-300 flex-shrink-0 mt-0.5"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                className="w-4 h-4"
+                aria-hidden="true"
+              >
+                {/* Triangle play icon */}
+                <circle cx="12" cy="12" r="11" strokeLinecap="round" />
+                <path
+                  d="M9 7v10l7-5z"
+                  fill="currentColor"
+                  stroke="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           )}
+
+          {/* Band info */}
+          <div className="flex-1 min-w-0">
+            <p className="text-xs text-zinc-500 tabular-nums">
+              {set.startTime}
+              <span className="mx-1 text-zinc-700">–</span>
+              {set.endTime}
+            </p>
+            <h2 className="font-display text-white text-sm leading-tight tracking-tighter truncate">
+              {set.name}
+            </h2>
+            {set.description && (
+              <p className="mt-1 text-xs text-zinc-500 leading-snug line-clamp-2">
+                {set.description}
+              </p>
+            )}
+          </div>
         </div>
 
-        {/* Favorite toggle */}
+        {/* Favorite toggle — furthest right */}
         <button
           onClick={onToggle}
           aria-label={
@@ -116,24 +147,6 @@ export default function SetCard({
             </svg>
           )}
         </button>
-
-        {/* Video play button */}
-        {set.youtubeUrl && (
-          <button
-            onClick={onPlayVideo}
-            aria-label={`Watch ${set.name} on YouTube`}
-            className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90 text-zinc-600 bg-zinc-800 hover:text-zinc-400"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-5 h-5"
-              aria-hidden="true"
-            >
-              <path d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0zm-8.4-3.5L9.5 15a.5.5 0 0 1-.8-.4V9.4a.5.5 0 0 1 .8-.4z" />
-            </svg>
-          </button>
-        )}
       </div>
     </article>
   );
