@@ -1,0 +1,39 @@
+/* ── Google Fonts — must precede all other rules ──────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Rubik:wght@400;500;700&display=swap");
+
+@import "tailwindcss";
+
+/* ── Tailwind v4 theme tokens ─────────────────────────────────────────────── */
+@theme {
+  --font-sans: "Rubik", system-ui, sans-serif;
+  --font-display: "Rubik Mono One", sans-serif;
+}
+
+/* ── Base resets ──────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: #09090b; /* zinc-950 */
+  color: #fff;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+/* ── Display font utility ─────────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+}
