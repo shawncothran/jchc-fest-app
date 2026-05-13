@@ -24,7 +24,7 @@ export default function SetCard({
       aria-label={`${set.name}, ${set.startTime} to ${set.endTime}`}
     >
       {isActive && (
-        <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-brand-600 px-2 py-1 rounded-full">
+        <div className="absolute top-2 left-3 flex items-center gap-1.5 bg-brand-600 px-2 py-0.5 rounded-full">
           <span
             className="inline-block w-2 h-2 rounded-full bg-white animate-pulse"
             aria-hidden="true"
@@ -36,18 +36,18 @@ export default function SetCard({
       )}
 
       <div
-        className={`flex items-start gap-4 px-4 ${isActive ? "pt-8 pb-4" : "py-4"}`}
+        className={`flex items-center gap-3 px-3 ${isActive ? "pt-7 pb-3" : "py-3"}`}
       >
         {/* Band image / placeholder */}
         {set.imageUrl ? (
           <img
             src={set.imageUrl}
             alt={set.name}
-            className="w-14 h-14 rounded-lg object-cover shrink-0 bg-zinc-800"
+            className="w-12 h-12 rounded-lg object-cover shrink-0 bg-zinc-800"
           />
         ) : (
           <div
-            className="w-14 h-14 rounded-lg shrink-0 bg-zinc-800 flex items-center justify-center text-zinc-600 text-xl font-display select-none"
+            className="w-12 h-12 rounded-lg shrink-0 bg-zinc-800 flex items-center justify-center text-zinc-600 text-lg font-display select-none"
             aria-hidden="true"
           >
             {set.name[0]}
@@ -56,16 +56,16 @@ export default function SetCard({
 
         {/* Main content */}
         <div className="flex-1 min-w-0">
-          <p className="text-xs text-zinc-400 mb-1 tabular-nums">
+          <p className="text-xs text-zinc-500 tabular-nums">
             {set.startTime}
-            <span className="mx-1 text-zinc-600">–</span>
+            <span className="mx-1 text-zinc-700">–</span>
             {set.endTime}
           </p>
-          <h2 className="font-display text-white text-lg leading-tight truncate">
+          <h2 className="font-display text-white text-base leading-tight truncate">
             {set.name}
           </h2>
           {set.description && (
-            <p className="mt-2 text-sm text-zinc-400 leading-snug line-clamp-2">
+            <p className="mt-1 text-xs text-zinc-500 leading-snug line-clamp-2">
               {set.description}
             </p>
           )}
@@ -80,7 +80,7 @@ export default function SetCard({
               : `Add ${set.name} to must-see`
           }
           aria-pressed={isFavorite}
-          className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-90 self-center ${
+          className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90 ${
             isFavorite
               ? "text-brand-500 bg-brand-950/60"
               : "text-zinc-600 bg-zinc-800 hover:text-zinc-400"

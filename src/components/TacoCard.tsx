@@ -18,6 +18,7 @@ export default function TacoCard({
     <div
       ref={overlay || ghost ? undefined : setNodeRef}
       {...(overlay || ghost ? {} : listeners)}
+      style={{ touchAction: "none" }}
       className={`rounded-xl border-2 border-dashed border-zinc-700/30 bg-zinc-900/60 transition-colors select-none ${
         ghost
           ? "opacity-30 pointer-events-none"
@@ -29,10 +30,10 @@ export default function TacoCard({
       }`}
       aria-label="Taco break — drag to move in the schedule"
     >
-      <div className="flex items-start gap-4 px-4 py-4">
+      <div className="flex items-center gap-3 px-3 py-3">
         {/* Taco icon — same size as band image in SetCard */}
         <div
-          className="w-14 h-14 rounded-lg shrink-0 bg-zinc-800/30 flex items-center justify-center text-3xl select-none"
+          className="w-12 h-12 rounded-lg shrink-0 bg-zinc-800/30 flex items-center justify-center text-2xl select-none"
           aria-hidden="true"
         >
           🌮
@@ -40,18 +41,16 @@ export default function TacoCard({
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <p className="text-xs text-zinc-400 mb-1 tabular-nums">
-            {windowLabel}
-          </p>
-          <h2 className="font-display text-white text-lg leading-tight">
+          <p className="text-xs text-zinc-500 tabular-nums">{windowLabel}</p>
+          <h2 className="font-display text-white text-base leading-tight truncate">
             Shove-It Tacos
           </h2>
-          <p className="mt-2 text-sm text-zinc-400 leading-snug">Taco Break</p>
+          <p className="text-xs text-zinc-500 leading-snug">Taco Break</p>
         </div>
 
         {/* Drag handle */}
         <div
-          className="shrink-0 w-10 text-zinc-600 flex flex-col gap-0.5 px-1 self-center items-center justify-center"
+          className="shrink-0 w-9 text-zinc-600 flex flex-col gap-0.5 px-1 items-center justify-center"
           aria-hidden="true"
         >
           {[0, 1, 2, 3].map((i) => (

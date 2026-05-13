@@ -162,17 +162,15 @@ export default function CountdownBanner({ favorites }: CountdownBannerProps) {
   }, [favorites]);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 pt-4 pb-2">
-      <div className="rounded-xl bg-zinc-900 border border-zinc-800 px-4 py-4 text-center">
-        <p className="text-xs uppercase tracking-widest text-zinc-500 mb-1">
+    <div className="max-w-2xl mx-auto px-4 pt-3 pb-1">
+      <div className="rounded-xl bg-zinc-900 border border-zinc-800 px-4 py-3 text-center">
+        <p className="text-xs uppercase tracking-widest text-zinc-500 mb-0.5">
           {state.label}
         </p>
-        <p className="font-display text-3xl text-white leading-none tabular-nums">
+        <p className="font-display text-2xl text-white leading-none tabular-nums">
           {state.value}
         </p>
-        {state.sub && (
-          <p className="mt-1.5 text-sm text-zinc-400">{state.sub}</p>
-        )}
+        {state.sub && <p className="mt-1 text-xs text-zinc-400">{state.sub}</p>}
       </div>
     </div>
   );

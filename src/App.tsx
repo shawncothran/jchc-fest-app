@@ -1,8 +1,12 @@
 import {
   DndContext,
   DragOverlay,
+  MouseSensor,
+  TouchSensor,
   type DragMoveEvent,
   type DragStartEvent,
+  useSensor,
+  useSensors,
 } from "@dnd-kit/core";
 import { useEffect, useRef, useState } from "react";
 import CountdownBanner from "./components/CountdownBanner";
@@ -102,6 +106,14 @@ function ScheduleContent({
   // Preview position while dragging — moves in real-time as cursor hovers sets
   const [previewPosition, setPreviewPosition] = useState<number | null>(null);
 
+  // Sensors: mouse for desktop, touch with delay for iOS (prevents scroll hijack)
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 200, tolerance: 8 },
+    })
+  );
+
   const displayPosition = previewPosition ?? tacoPosition;
 
   const visibleSets =
@@ -164,6 +176,7 @@ function ScheduleContent({
 
   return (
     <DndContext
+      sensors={sensors}
       onDragStart={handleDragStart}
       onDragMove={handleDragMove}
       onDragEnd={handleDragEnd}
@@ -185,7 +198,7 @@ function ScheduleContent({
         />
         <CountdownBanner favorites={favorites} />
 
-        <main className="max-w-2xl mx-auto px-4 py-6">
+        <main className="max-w-2xl mx-auto px-4 py-4">
           {visibleSets.length === 0 ? (
             <EmptyState onShowAll={() => setFilter("all")} />
           ) : (
