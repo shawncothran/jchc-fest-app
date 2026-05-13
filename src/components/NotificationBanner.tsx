@@ -26,7 +26,7 @@ export default function NotificationBanner({
           fill="none"
           stroke="currentColor"
           strokeWidth={1.5}
-          className="w-5 h-5 text-red-400 shrink-0"
+          className="w-5 h-5 text-brand-400 shrink-0"
           aria-hidden="true"
         >
           <path
@@ -41,7 +41,7 @@ export default function NotificationBanner({
         </p>
         <button
           onClick={onRequest}
-          className="shrink-0 bg-red-600 hover:bg-red-500 active:bg-red-700 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded transition-colors"
+          className="shrink-0 bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded transition-colors"
         >
           Enable
         </button>

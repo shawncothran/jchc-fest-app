@@ -1,12 +1,14 @@
+import { DndContext, pointerWithin, type DragEndEvent } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import CountdownBanner from "./components/CountdownBanner";
 import EmptyState from "./components/EmptyState";
 import FilterTabs, { type FilterValue } from "./components/FilterTabs";
 import Header from "./components/Header";
 import NotificationBanner from "./components/NotificationBanner";
-import SetCard from "./components/SetCard";
-import { FESTIVAL_DATE, sets } from "./data/schedule";
+import ScheduleList from "./components/ScheduleList";
+import { FESTIVAL_DATE, sets, type ScheduleSet } from "./data/schedule";
 import { useFavorites } from "./hooks/useFavorites";
+import { useTacoDragDrop } from "./hooks/useTacoDragDrop";
 import {
   getPermissionStatus,
   requestPermission,
@@ -33,6 +35,29 @@ function getActiveSetId(): number | null {
   return null;
 }
 
+type ScheduleItem = { type: "set"; set: ScheduleSet } | { type: "taco" };
+
+function buildItems(
+  visibleSets: ScheduleSet[],
+  tacoAfterSetId: number,
+  filter: FilterValue,
+): ScheduleItem[] {
+  const items: ScheduleItem[] = [];
+  let tacoPlaced = false;
+  for (const set of visibleSets) {
+    items.push({ type: "set", set });
+    if (set.id === tacoAfterSetId) {
+      items.push({ type: "taco" });
+      tacoPlaced = true;
+    }
+  }
+  // In all-sets view always show the taco card, even if its anchor set is hidden
+  if (!tacoPlaced && filter === "all") {
+    items.push({ type: "taco" });
+  }
+  return items;
+}
+
 export default function App() {
   const { favorites, isFavorite, toggle, count } = useFavorites();
   const [filter, setFilter] = useState<FilterValue>("all");
@@ -40,6 +65,9 @@ export default function App() {
     NotificationPermission | "unsupported" | undefined
   >(undefined);
   const [activeSetId, setActiveSetId] = useState<number | null>(getActiveSetId);
+
+  // Taco drag-and-drop state
+  const tacoDragDrop = useTacoDragDrop(favorites);
 
   // Hydrate notification status on mount
   useEffect(() => {
@@ -64,48 +92,65 @@ export default function App() {
     setNotifStatus(result);
   }
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    if (event.active.id === "taco-card" && event.over) {
+      const overIdStr = String(event.over.id);
+      if (overIdStr.startsWith("drop-")) {
+        const setId = parseInt(overIdStr.replace("drop-", ""), 10);
+        tacoDragDrop.setTacoAfterSetId(setId);
+        tacoDragDrop.setTacoManuallyMoved(true);
+      }
+    }
+  };
+
   const visibleSets =
     filter === "all" ? sets : sets.filter((s) => isFavorite(s.id));
 
+  const items = buildItems(visibleSets, tacoDragDrop.displayPosition, filter);
+
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
-      <Header />
-      <NotificationBanner
-        status={notifStatus}
-        onRequest={handleRequestNotifications}
-      />
-      <CountdownBanner favorites={favorites} />
-      <FilterTabs filter={filter} onChange={setFilter} favoriteCount={count} />
+    <DndContext onDragEnd={handleDragEnd} collisionDetection={pointerWithin}>
+      <div className="min-h-screen bg-zinc-950 text-white">
+        <Header />
+        <NotificationBanner
+          status={notifStatus}
+          onRequest={handleRequestNotifications}
+        />
+        <CountdownBanner favorites={favorites} />
+        <FilterTabs
+          filter={filter}
+          onChange={setFilter}
+          favoriteCount={count}
+        />
 
-      <main className="max-w-2xl mx-auto px-4 py-4 space-y-3">
-        {visibleSets.length === 0 ? (
-          <EmptyState onShowAll={() => setFilter("all")} />
-        ) : (
-          visibleSets.map((set) => (
-            <SetCard
-              key={set.id}
-              set={set}
-              isFavorite={isFavorite(set.id)}
-              onToggle={() => toggle(set.id)}
-              isActive={set.id === activeSetId}
+        <main className="max-w-2xl mx-auto px-4 py-4">
+          {visibleSets.length === 0 ? (
+            <EmptyState onShowAll={() => setFilter("all")} />
+          ) : (
+            <ScheduleList
+              items={items}
+              tacoAfterSetId={tacoDragDrop.tacoAfterSetId}
+              activeSetId={activeSetId}
+              isFavorite={isFavorite}
+              onToggleFavorite={toggle}
             />
-          ))
-        )}
-      </main>
+          )}
+        </main>
 
-      <footer className="max-w-2xl mx-auto px-4 py-10 text-center text-xs text-zinc-600">
-        <p>
-          JCHC Fest · July 28, 2026 ·{" "}
-          <a
-            href="https://www.jchcfest.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-zinc-400 transition-colors underline underline-offset-2"
-          >
-            jchcfest.com
-          </a>
-        </p>
-      </footer>
-    </div>
+        <footer className="max-w-2xl mx-auto px-4 py-10 text-center text-xs text-zinc-600">
+          <p>
+            JCHC Fest · July 28, 2026 ·{" "}
+            <a
+              href="https://www.jchcfest.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-zinc-400 transition-colors underline underline-offset-2"
+            >
+              jchcfest.com
+            </a>
+          </p>
+        </footer>
+      </div>
+    </DndContext>
   );
 }

@@ -28,7 +28,7 @@ export default function EmptyState({ onShowAll }: EmptyStateProps) {
       </p>
       <button
         onClick={onShowAll}
-        className="bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-bold uppercase tracking-widest text-sm px-6 py-3 rounded-lg transition-colors"
+        className="bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white font-bold uppercase tracking-widest text-sm px-6 py-3 rounded-lg transition-colors"
       >
         Browse All Sets
       </button>
