@@ -170,7 +170,9 @@ export default function CountdownBanner({ favorites }: CountdownBannerProps) {
         <p className="font-display text-2xl text-white leading-none tabular-nums">
           {state.value}
         </p>
-        {state.sub && <p className="mt-1 text-xs text-zinc-400">{state.sub}</p>}
+        {state.sub ? (
+          <p className="mt-1 text-xs text-zinc-400">{state.sub}</p>
+        ) : null}
       </div>
     </div>
   );

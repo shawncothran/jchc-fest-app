@@ -59,7 +59,7 @@ export default function SetCard({
         {/* Main content — flex container for play button + text info */}
         <div className="flex-1 min-w-0 flex items-start gap-2">
           {/* Video play button — only if available */}
-          {set.youtubeUrl && (
+          {set.youtubeUrl ? (
             <button
               onClick={onPlayVideo}
               aria-label={`Watch ${set.name} on YouTube`}
@@ -75,7 +75,7 @@ export default function SetCard({
                 <path d="M8 5v14l11-7z" />
               </svg>
             </button>
-          )}
+          ) : null}
 
           {/* Band info */}
           <div className="flex-1 min-w-0">
@@ -87,11 +87,11 @@ export default function SetCard({
             <h2 className="font-display text-white text-sm leading-tight tracking-tighter truncate">
               {set.name}
             </h2>
-            {set.description && (
+            {set.description ? (
               <p className="mt-1 text-xs text-zinc-500 leading-snug line-clamp-2">
                 {set.description}
               </p>
-            )}
+            ) : null}
           </div>
         </div>
 

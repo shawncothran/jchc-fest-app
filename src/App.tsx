@@ -237,22 +237,20 @@ function ScheduleContent({
         </footer>
       </div>
 
-      {/* Floating card that follows the cursor during drag */}
       <DragOverlay>
         {isDragging ? (
           <TacoCard windowLabel={getTacoWindowLabel(displayPosition)} overlay />
         ) : null}
       </DragOverlay>
 
-      {/* YouTube video modal */}
-      {selectedSet?.youtubeUrl && (
+      {selectedSet?.youtubeUrl ? (
         <YouTubeModal
           bandName={selectedSet.name}
           youtubeUrl={selectedSet.youtubeUrl}
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
-      )}
+      ) : null}
     </DndContext>
   );
 }
