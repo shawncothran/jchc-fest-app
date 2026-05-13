@@ -12,6 +12,7 @@ interface ScheduleListProps {
   activeSetId: number | null;
   isFavorite: (id: number) => boolean;
   onToggleFavorite: (id: number) => void;
+  onPlayVideo?: (set: ScheduleSet) => void;
   /** True only when the taco has moved to a new slot — shows ghost placeholder */
   showGhost?: boolean;
 }
@@ -22,6 +23,7 @@ export default function ScheduleList({
   activeSetId,
   isFavorite,
   onToggleFavorite,
+  onPlayVideo,
   showGhost,
 }: ScheduleListProps) {
   return (
@@ -47,6 +49,9 @@ export default function ScheduleList({
               set={item.set}
               isFavorite={isFavorite(item.set.id)}
               onToggle={() => onToggleFavorite(item.set.id)}
+              onPlayVideo={
+                onPlayVideo ? () => onPlayVideo(item.set) : undefined
+              }
               isActive={item.set.id === activeSetId}
             />
           </DropZone>

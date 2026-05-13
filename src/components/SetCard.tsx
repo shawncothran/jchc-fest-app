@@ -4,6 +4,7 @@ interface SetCardProps {
   set: ScheduleSet;
   isFavorite: boolean;
   onToggle: () => void;
+  onPlayVideo?: () => void;
   /** Pass true if this is the currently-playing set */
   isActive?: boolean;
 }
@@ -12,6 +13,7 @@ export default function SetCard({
   set,
   isFavorite,
   onToggle,
+  onPlayVideo,
   isActive,
 }: SetCardProps) {
   return (
@@ -114,6 +116,24 @@ export default function SetCard({
             </svg>
           )}
         </button>
+
+        {/* Video play button */}
+        {set.youtubeUrl && (
+          <button
+            onClick={onPlayVideo}
+            aria-label={`Watch ${set.name} on YouTube`}
+            className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90 text-zinc-600 bg-zinc-800 hover:text-zinc-400"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-5 h-5"
+              aria-hidden="true"
+            >
+              <path d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0zm-8.4-3.5L9.5 15a.5.5 0 0 1-.8-.4V9.4a.5.5 0 0 1 .8-.4z" />
+            </svg>
+          </button>
+        )}
       </div>
     </article>
   );

@@ -8,6 +8,7 @@ export interface ScheduleSet {
   description?: string;
   imageUrl?: string;
   genre?: string;
+  youtubeUrl?: string; // YouTube video URL for band discovery
 }
 
 export const FESTIVAL_DATE = "2026-07-18"; // ISO date string – update each year
@@ -40,78 +41,91 @@ const rawSets = [
     name: "Nomads",
     start: "12:00 PM",
     end: "12:20 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 2,
     name: "Saul of Tarsus",
     start: "12:35 PM",
     end: "1:00 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 3,
     name: "Headnoise",
     start: "1:15 PM",
     end: "1:45 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 4,
     name: "TAKE",
     start: "2:00 PM",
     end: "2:30 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 5,
     name: "Deathbreaker",
     start: "2:45 PM",
     end: "3:15 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 6,
     name: "Light The Way",
     start: "3:30 PM",
     end: "4:00 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 7,
     name: "Watashi Wa",
     start: "4:15 PM",
     end: "4:45 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 8,
     name: "BARRIERS",
     start: "5:00 PM",
     end: "5:30 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 9,
     name: "xDoulosx",
     start: "5:45 PM",
     end: "6:15 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 10,
     name: "Dear Adversary",
     start: "6:35 PM",
     end: "7:10 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 11,
     name: "Symphony in Peril",
     start: "7:25 PM",
     end: "8:05 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 12,
     name: "Officer Negative",
     start: "8:20 PM",
     end: "9:00 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
   {
     id: 13,
     name: "Cultist",
     start: "9:15 PM",
     end: "10:00 PM",
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
 ];
 
@@ -122,4 +136,5 @@ export const sets: ScheduleSet[] = rawSets.map((s) => ({
   endTime: s.end,
   startMinutes: toMinutes(s.start),
   endMinutes: toMinutes(s.end),
+  youtubeUrl: s.youtubeUrl,
 }));

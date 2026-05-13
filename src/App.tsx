@@ -17,6 +17,7 @@ import InstallPrompt from "./components/InstallPrompt";
 import NotificationBanner from "./components/NotificationBanner";
 import ScheduleList from "./components/ScheduleList";
 import TacoCard from "./components/TacoCard";
+import YouTubeModal from "./components/YouTubeModal";
 import {
   FESTIVAL_DATE,
   FESTIVAL_DATE_DISPLAY,
@@ -103,6 +104,8 @@ function ScheduleContent({
 }) {
   const { tacoPosition, setTacoPosition } = useTacoPosition(favorites);
   const [isDragging, setIsDragging] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSet, setSelectedSet] = useState<ScheduleSet | null>(null);
   // Preview position while dragging — moves in real-time as cursor hovers sets
   const [previewPosition, setPreviewPosition] = useState<number | null>(null);
 
@@ -209,6 +212,10 @@ function ScheduleContent({
               activeSetId={activeSetId}
               isFavorite={isFavorite}
               onToggleFavorite={toggle}
+              onPlayVideo={(set) => {
+                setSelectedSet(set);
+                setIsModalOpen(true);
+              }}
               showGhost={isDragging && previewPosition !== null}
             />
           )}
@@ -236,6 +243,16 @@ function ScheduleContent({
           <TacoCard windowLabel={getTacoWindowLabel(displayPosition)} overlay />
         ) : null}
       </DragOverlay>
+
+      {/* YouTube video modal */}
+      {selectedSet && (
+        <YouTubeModal
+          bandName={selectedSet.name}
+          youtubeUrl={selectedSet.youtubeUrl || ""}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </DndContext>
   );
 }
