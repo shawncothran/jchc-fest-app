@@ -97,7 +97,7 @@ const rawSets = [
     end: "4:45 PM",
     genre: "Emo / Alternative Rock",
     location: "San Luis Obispo, CA",
-    youtubeUrl: "https://www.youtube.com/watch?v=vfR4zHWgboY",
+    youtubeUrl: "https://www.youtube.com/watch?v=WVkPRCgAt5k",
   },
   {
     id: 8,
