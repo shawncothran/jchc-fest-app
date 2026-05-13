@@ -212,7 +212,7 @@ function ScheduleContent({
               activeSetId={activeSetId}
               isFavorite={isFavorite}
               onToggleFavorite={toggle}
-              onPlayVideo={(set) => {
+              onPlayVideo={(set: ScheduleSet) => {
                 setSelectedSet(set);
                 setIsModalOpen(true);
               }}
@@ -245,10 +245,10 @@ function ScheduleContent({
       </DragOverlay>
 
       {/* YouTube video modal */}
-      {selectedSet && (
+      {selectedSet?.youtubeUrl && (
         <YouTubeModal
           bandName={selectedSet.name}
-          youtubeUrl={selectedSet.youtubeUrl || ""}
+          youtubeUrl={selectedSet.youtubeUrl}
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
