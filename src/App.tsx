@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import CountdownBanner from "./components/CountdownBanner";
 import EmptyState from "./components/EmptyState";
 import FilterTabs, { type FilterValue } from "./components/FilterTabs";
 import Header from "./components/Header";
 import NotificationBanner from "./components/NotificationBanner";
 import SetCard from "./components/SetCard";
-import { sets, FESTIVAL_DATE } from "./data/schedule";
+import { FESTIVAL_DATE, sets } from "./data/schedule";
 import { useFavorites } from "./hooks/useFavorites";
 import {
   getPermissionStatus,
@@ -73,6 +74,7 @@ export default function App() {
         status={notifStatus}
         onRequest={handleRequestNotifications}
       />
+      <CountdownBanner favorites={favorites} />
       <FilterTabs filter={filter} onChange={setFilter} favoriteCount={count} />
 
       <main className="max-w-2xl mx-auto px-4 py-4 space-y-3">
