@@ -16,10 +16,10 @@ export default function SetCard({
 }: SetCardProps) {
   return (
     <article
-      className={`relative rounded-xl border transition-colors ${
+      className={`relative rounded-xl transition-colors ${
         isActive
-          ? "bg-zinc-800 border-brand-600"
-          : "bg-zinc-900 border-zinc-800 hover:border-zinc-700"
+          ? "bg-zinc-800 border-2 border-brand-600"
+          : "border border-zinc-800 bg-zinc-900 hover:border-zinc-700"
       }`}
       aria-label={`${set.name}, ${set.startTime} to ${set.endTime}`}
     >
@@ -80,7 +80,7 @@ export default function SetCard({
               : `Add ${set.name} to must-see`
           }
           aria-pressed={isFavorite}
-          className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-90 ${
+          className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-90 self-center ${
             isFavorite
               ? "text-brand-500 bg-brand-950/60"
               : "text-zinc-600 bg-zinc-800 hover:text-zinc-400"
@@ -94,7 +94,7 @@ export default function SetCard({
               className="w-5 h-5"
               aria-hidden="true"
             >
-              <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+              <path d="M11.6 21v-.1l-.4-.2A25 25 0 0 1 7 17.5c-2.3-2.1-4.7-5.3-4.7-9.2 0-3 2.4-5.3 5.4-5.3A6 6 0 0 1 12 5a6 6 0 0 1 4.3-2c3 0 5.4 2.3 5.4 5.3 0 3.9-2.4 7-4.7 9.2a25 25 0 0 1-4.2 3.2l-.4.2h-.8" />
             </svg>
           ) : (
             // Outline heart
@@ -109,7 +109,7 @@ export default function SetCard({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                d="M21 8.25a4.6 4.6 0 0 0-4.69-4.5A4.7 4.7 0 0 0 12 6.48a4.7 4.7 0 0 0-4.31-2.73A4.6 4.6 0 0 0 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12"
               />
             </svg>
           )}

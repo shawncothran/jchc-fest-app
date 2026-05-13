@@ -5,9 +5,13 @@ const STORAGE_KEY = "jchcfest-favorites";
 function loadFavorites(): Set<number> {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return new Set();
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) return new Set(parsed as number[]);
+    if (!raw) {
+      return new Set();
+    }
+    const parsed = JSON.parse(raw) as unknown;
+    if (Array.isArray(parsed) && parsed.every((x) => typeof x === "number")) {
+      return new Set(parsed);
+    }
     return new Set();
   } catch {
     return new Set();

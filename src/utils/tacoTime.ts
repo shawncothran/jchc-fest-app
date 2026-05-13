@@ -29,7 +29,7 @@ export function computeTacoAfterSetId(favorites: Set<number>): number {
       (s) =>
         favorites.has(s.id) &&
         s.startMinutes >= WINDOW_START_MIN &&
-        s.startMinutes < WINDOW_END_MIN,
+        s.startMinutes < WINDOW_END_MIN
     );
     if (!hasFavInWindow) {
       return FREE_WINDOW_BEFORE_ID;
@@ -42,9 +42,11 @@ export function computeTacoAfterSetId(favorites: Set<number>): number {
 export function getTacoWindowLabel(afterSetId: number): string {
   const afterSet = sets.find((s) => s.id === afterSetId);
   const nextSet = sets.find(
-    (s) => afterSet != null && s.startMinutes > afterSet.endMinutes,
+    (s) => afterSet != null && s.startMinutes > afterSet.endMinutes
   );
-  if (!afterSet || !nextSet) return "";
+  if (!afterSet || !nextSet) {
+    return "";
+  }
   return `${afterSet.endTime} – ${nextSet.startTime}`;
 }
 

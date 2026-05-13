@@ -11,6 +11,7 @@ export interface ScheduleSet {
 }
 
 export const FESTIVAL_DATE = "2026-07-18"; // ISO date string – update each year
+export const FESTIVAL_DATE_DISPLAY = "July 18"; // human-readable – update each year
 export const FESTIVAL_NAME = "JCHC Fest";
 export const FESTIVAL_YEAR = "2026";
 export const DOORS_OPEN = "11:30 AM";
@@ -20,8 +21,12 @@ function toMinutes(time: string): number {
   const [timePart, period] = time.split(" ");
   const [h, m] = timePart.split(":").map(Number);
   let hours = h;
-  if (period === "PM" && hours !== 12) hours += 12;
-  if (period === "AM" && hours === 12) hours = 0;
+  if (period === "PM" && hours !== 12) {
+    hours += 12;
+  }
+  if (period === "AM" && hours === 12) {
+    hours = 0;
+  }
   return hours * 60 + m;
 }
 

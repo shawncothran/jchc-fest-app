@@ -1,0 +1,25 @@
+{
+  "name": "JCHC Fest 2026 — Schedule",
+  "short_name": "JCHC Fest",
+  "description": "Official schedule app for JCHC Fest 2026. One day, one stage, all hardcore.",
+  "theme_color": "#09090b",
+  "background_color": "#09090b",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

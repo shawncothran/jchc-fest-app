@@ -1,4 +1,9 @@
-import { DOORS_OPEN, FESTIVAL_NAME, FESTIVAL_YEAR } from "../data/schedule";
+import {
+  DOORS_OPEN,
+  FESTIVAL_DATE_DISPLAY,
+  FESTIVAL_NAME,
+  FESTIVAL_YEAR,
+} from "../data/schedule";
 
 export default function Header() {
   return (
@@ -9,7 +14,7 @@ export default function Header() {
             {FESTIVAL_NAME}
           </h1>
           <p className="text-xs text-zinc-400 mt-0.5 tracking-widest uppercase">
-            July 28 · {FESTIVAL_YEAR} · Doors {DOORS_OPEN}
+            {FESTIVAL_DATE_DISPLAY} · {FESTIVAL_YEAR} · Doors {DOORS_OPEN}
           </p>
         </div>
         <a

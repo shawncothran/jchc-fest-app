@@ -1,28 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { computeTacoAfterSetId } from "../utils/tacoTime";
 
 export function useTacoDragDrop(favorites: Set<number>) {
-  // Permanent position (what gets saved)
-  const [tacoAfterSetId, setTacoAfterSetId] = useState<number>(() =>
-    computeTacoAfterSetId(favorites),
-  );
-
   // Whether the user has manually moved it (blocks auto-recommendation)
   const [tacoManuallyMoved, setTacoManuallyMoved] = useState(false);
 
   // Preview position while dragging
   const [dragPreviewSetId, setDragPreviewSetId] = useState<number | null>(null);
 
-  // Keep recommendation in sync with favorites (unless user has manually moved)
-  useEffect(() => {
-    if (!tacoManuallyMoved) {
-      setTacoAfterSetId(computeTacoAfterSetId(favorites));
-    }
-  }, [favorites, tacoManuallyMoved]);
+  // Compute position based on favorites and manual move state
+  const tacoAfterSetId =
+    !tacoManuallyMoved && favorites.size > 0
+      ? computeTacoAfterSetId(favorites)
+      : 0;
 
   return {
     tacoAfterSetId,
-    setTacoAfterSetId,
     tacoManuallyMoved,
     setTacoManuallyMoved,
     dragPreviewSetId,

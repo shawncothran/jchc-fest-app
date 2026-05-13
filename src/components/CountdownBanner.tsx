@@ -14,15 +14,24 @@ function pad(n: number) {
 
 /** Format a millisecond duration into a human-readable string */
 function formatMs(ms: number): string {
-  if (ms <= 0) return "0:00";
+  if (ms <= 0) {
+    return "0:00";
+  }
   const totalSecs = Math.floor(ms / 1000);
   const days = Math.floor(totalSecs / 86400);
   const hours = Math.floor((totalSecs % 86400) / 3600);
   const mins = Math.floor((totalSecs % 3600) / 60);
   const secs = totalSecs % 60;
-  if (days > 0) return `${days}d ${pad(hours)}h ${pad(mins)}m`;
-  if (hours > 0) return `${hours}:${pad(mins)}:${pad(secs)}`;
-  return `${mins}:${pad(secs)}`;
+  if (days > 0) {
+    return `${days}d ${pad(hours)}h ${pad(mins)}m ${pad(secs)}s`;
+  }
+  if (hours > 0) {
+    return `${hours}:${pad(mins)}:${pad(secs)}`;
+  }
+  if (mins > 0) {
+    return `${mins}:${pad(secs)}`;
+  }
+  return `${secs}s`;
 }
 
 /** Parse a display time string ("11:30 AM") to a Date on the festival day */
@@ -30,8 +39,12 @@ function festivalTime(timeStr: string): Date {
   const [timePart, period] = timeStr.split(" ");
   const [h, m] = timePart.split(":").map(Number);
   let hours = h;
-  if (period === "PM" && hours !== 12) hours += 12;
-  if (period === "AM" && hours === 12) hours = 0;
+  if (period === "PM" && hours !== 12) {
+    hours += 12;
+  }
+  if (period === "AM" && hours === 12) {
+    hours = 0;
+  }
   const d = new Date(`${FESTIVAL_DATE}T00:00:00`);
   d.setHours(hours, m, 0, 0);
   return d;
@@ -83,12 +96,12 @@ function computeCountdown(now: Date, favorites: Set<number>): CountdownState {
 
     // Find currently playing set
     const playingSet = sets.find(
-      (s) => nowMin >= s.startMinutes && nowMin < s.endMinutes,
+      (s) => nowMin >= s.startMinutes && nowMin < s.endMinutes
     );
 
     // Upcoming favorited sets
     const upcomingFavs = sets.filter(
-      (s) => favorites.has(s.id) && s.startMinutes > nowMin,
+      (s) => favorites.has(s.id) && s.startMinutes > nowMin
     );
 
     // Next favorited set takes priority
@@ -136,7 +149,7 @@ interface CountdownBannerProps {
 
 export default function CountdownBanner({ favorites }: CountdownBannerProps) {
   const [state, setState] = useState<CountdownState>(() =>
-    computeCountdown(new Date(), favorites),
+    computeCountdown(new Date(), favorites)
   );
 
   useEffect(() => {
@@ -149,8 +162,8 @@ export default function CountdownBanner({ favorites }: CountdownBannerProps) {
   }, [favorites]);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 pt-4 pb-1">
-      <div className="rounded-xl bg-zinc-900 border border-zinc-800 px-5 py-4 text-center">
+    <div className="max-w-2xl mx-auto px-4 pt-4 pb-2">
+      <div className="rounded-xl bg-zinc-900 border border-zinc-800 px-4 py-4 text-center">
         <p className="text-xs uppercase tracking-widest text-zinc-500 mb-1">
           {state.label}
         </p>

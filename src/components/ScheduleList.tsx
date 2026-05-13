@@ -1,5 +1,4 @@
 import type { ScheduleSet } from "../data/schedule";
-import { useDragTargetId } from "../hooks/useDragTargetId";
 import { getTacoWindowLabel } from "../utils/tacoTime";
 import DropZone from "./DropZone";
 import SetCard from "./SetCard";
@@ -13,6 +12,8 @@ interface ScheduleListProps {
   activeSetId: number | null;
   isFavorite: (id: number) => boolean;
   onToggleFavorite: (id: number) => void;
+  /** True only when the taco has moved to a new slot — shows ghost placeholder */
+  showGhost?: boolean;
 }
 
 export default function ScheduleList({
@@ -21,24 +22,27 @@ export default function ScheduleList({
   activeSetId,
   isFavorite,
   onToggleFavorite,
+  showGhost,
 }: ScheduleListProps) {
-  const dragTargetId = useDragTargetId();
-
   return (
     <div className="flex flex-col gap-3">
       {items.map((item) =>
         item.type === "taco" ? (
-          <TacoCard
-            key="taco"
-            windowLabel={getTacoWindowLabel(tacoAfterSetId)}
-            isDragTarget={dragTargetId === "taco-card"}
-          />
+          showGhost ? (
+            // Ghost placeholder at destination — same size/content as real card
+            <TacoCard
+              key="taco"
+              windowLabel={getTacoWindowLabel(tacoAfterSetId)}
+              ghost
+            />
+          ) : (
+            <TacoCard
+              key="taco"
+              windowLabel={getTacoWindowLabel(tacoAfterSetId)}
+            />
+          )
         ) : (
-          <DropZone
-            key={item.set.id}
-            setId={item.set.id}
-            isDragTarget={dragTargetId === `drop-${item.set.id}`}
-          >
+          <DropZone key={item.set.id} setId={item.set.id}>
             <SetCard
               set={item.set}
               isFavorite={isFavorite(item.set.id)}
@@ -46,7 +50,7 @@ export default function ScheduleList({
               isActive={item.set.id === activeSetId}
             />
           </DropZone>
-        ),
+        )
       )}
     </div>
   );

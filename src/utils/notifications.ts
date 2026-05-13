@@ -27,12 +27,16 @@ export function notificationsSupported(): boolean {
 }
 
 export function getPermissionStatus(): NotificationPermission | "unsupported" {
-  if (!notificationsSupported()) return "unsupported";
+  if (!notificationsSupported()) {
+    return "unsupported";
+  }
   return Notification.permission;
 }
 
 export async function requestPermission(): Promise<NotificationPermission> {
-  if (!notificationsSupported()) return "denied";
+  if (!notificationsSupported()) {
+    return "denied";
+  }
   return Notification.requestPermission();
 }
 
@@ -54,7 +58,7 @@ export function clearReminder(setId: number): void {
 export function scheduleReminder(
   setId: number,
   bandName: string,
-  startMinutes: number,
+  startMinutes: number
 ): void {
   clearReminder(setId);
 
@@ -64,7 +68,9 @@ export function scheduleReminder(
   const reminderTime = new Date(festivalMidnight.getTime() + reminderMs);
   const msUntilReminder = reminderTime.getTime() - Date.now();
 
-  if (msUntilReminder <= 0) return; // already past – don't schedule
+  if (msUntilReminder <= 0) {
+    return;
+  } // already past – don't schedule
 
   const timer = setTimeout(() => {
     if (Notification.permission === "granted") {
@@ -84,22 +90,59 @@ export function scheduleReminder(
   scheduledTimers.set(setId, timer);
 }
 
+// Reserved timer ID for the taco break reminder (avoids collision with set IDs)
+const TACO_TIMER_ID = -1;
+
 /**
  * Re-syncs all scheduled reminders to match the current favorites set.
  * Call this whenever favorites change or permission is granted.
  */
 export function syncReminders(
   favoriteIds: Set<number>,
-  allSets: Array<{ id: number; name: string; startMinutes: number }>,
+  allSets: Array<{
+    id: number;
+    name: string;
+    startMinutes: number;
+    endMinutes: number;
+  }>,
+  tacoAfterSetId?: number
 ): void {
   // Clear all existing timers first
   scheduledTimers.forEach((_, id) => clearReminder(id));
 
-  if (Notification.permission !== "granted") return;
+  if (Notification.permission !== "granted") {
+    return;
+  }
 
   for (const set of allSets) {
     if (favoriteIds.has(set.id)) {
       scheduleReminder(set.id, set.name, set.startMinutes);
+    }
+  }
+
+  // Schedule taco break reminder 15 min before the window opens
+  if (tacoAfterSetId != null) {
+    const anchorSet = allSets.find((s) => s.id === tacoAfterSetId);
+    if (anchorSet) {
+      const tacoWindowStartMin = anchorSet.endMinutes;
+      const festivalMidnight = new Date(`${FESTIVAL_DATE}T00:00:00`);
+      const reminderMs = (tacoWindowStartMin - 15) * 60 * 1000;
+      const reminderTime = new Date(festivalMidnight.getTime() + reminderMs);
+      const msUntilReminder = reminderTime.getTime() - Date.now();
+      if (msUntilReminder > 0) {
+        const timer = setTimeout(() => {
+          if (Notification.permission === "granted") {
+            new Notification("JCHC Fest — Taco Time Soon! 🌮", {
+              body: "Your taco window opens in 15 minutes. Get your order in!",
+              icon: "/icons/icon-192x192.png",
+              badge: "/icons/icon-192x192.png",
+              tag: "jchcfest-taco",
+            });
+          }
+          scheduledTimers.delete(TACO_TIMER_ID);
+        }, msUntilReminder);
+        scheduledTimers.set(TACO_TIMER_ID, timer);
+      }
     }
   }
 }

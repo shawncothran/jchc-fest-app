@@ -2,28 +2,35 @@ import { useDraggable } from "@dnd-kit/core";
 
 interface TacoCardProps {
   windowLabel: string;
-  isDragTarget: boolean;
+  overlay?: boolean;
+  ghost?: boolean;
 }
 
-export default function TacoCard({ windowLabel, isDragTarget }: TacoCardProps) {
+export default function TacoCard({
+  windowLabel,
+  overlay,
+  ghost,
+}: TacoCardProps) {
   const { setNodeRef, listeners, isDragging } = useDraggable({
     id: "taco-card",
   });
   return (
     <div
-      ref={setNodeRef}
-      {...listeners}
-      className={`rounded-xl border-2 border-dashed transition-colors cursor-grab active:cursor-grabbing select-none ${
-        isDragging ? "opacity-50" : ""
-      } ${
-        isDragTarget
-          ? "border-zinc-600/40 bg-zinc-800/15"
-          : "border-zinc-700/30 bg-zinc-900/60 hover:border-zinc-600/40"
+      ref={overlay || ghost ? undefined : setNodeRef}
+      {...(overlay || ghost ? {} : listeners)}
+      className={`rounded-xl border-2 border-dashed border-zinc-700/30 bg-zinc-900/60 transition-colors select-none ${
+        ghost
+          ? "opacity-30 pointer-events-none"
+          : overlay
+            ? "shadow-2xl rotate-1 scale-105 opacity-95 cursor-grabbing"
+            : isDragging
+              ? "opacity-20 cursor-grab active:cursor-grabbing hover:border-zinc-600/40"
+              : "cursor-grab active:cursor-grabbing hover:border-zinc-600/40"
       }`}
       aria-label="Taco break — drag to move in the schedule"
     >
-      <div className="flex items-center gap-4 px-4 py-4">
-        {/* Taco icon */}
+      <div className="flex items-start gap-4 px-4 py-4">
+        {/* Taco icon — same size as band image in SetCard */}
         <div
           className="w-14 h-14 rounded-lg shrink-0 bg-zinc-800/30 flex items-center justify-center text-3xl select-none"
           aria-hidden="true"
@@ -33,22 +40,18 @@ export default function TacoCard({ windowLabel, isDragTarget }: TacoCardProps) {
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <p className="text-xs text-zinc-500/70 mb-0.5 uppercase tracking-widest font-bold">
-            Taco Break
+          <p className="text-xs text-zinc-400 mb-1 tabular-nums">
+            {windowLabel}
           </p>
-          <p className="font-display text-zinc-300 text-lg leading-tight">
+          <h2 className="font-display text-white text-lg leading-tight">
             Shove-It Tacos
-          </p>
-          {windowLabel && (
-            <p className="mt-1 text-xs text-zinc-400 tabular-nums">
-              {windowLabel}
-            </p>
-          )}
+          </h2>
+          <p className="mt-2 text-sm text-zinc-400 leading-snug">Taco Break</p>
         </div>
 
         {/* Drag handle */}
         <div
-          className="shrink-0 text-zinc-600 flex flex-col gap-0.5 px-1"
+          className="shrink-0 w-10 text-zinc-600 flex flex-col gap-0.5 px-1 self-center items-center justify-center"
           aria-hidden="true"
         >
           {[0, 1, 2, 3].map((i) => (
