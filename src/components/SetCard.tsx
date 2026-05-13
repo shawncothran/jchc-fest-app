@@ -55,40 +55,44 @@ export default function SetCard({
           </div>
         )}
 
-        <div className="flex-1 min-w-0 flex items-start gap-2">
+        <div className="flex-1 min-w-0">
+          <p className="text-xs text-zinc-500 tabular-nums mb-0.5">
+            {set.startTime}
+            <span className="mx-1 text-zinc-700">–</span>
+            {set.endTime}
+          </p>
           {set.youtubeUrl ? (
             <button
               onClick={onPlayVideo}
               aria-label={`Watch ${set.name} on YouTube`}
-              className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90 text-zinc-500 bg-zinc-800 hover:text-zinc-300 hover:bg-zinc-700 mt-0.5"
+              className="w-full text-left group"
             >
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-5 h-5"
-                aria-hidden="true"
-              >
-                {/* Triangle play icon */}
-                <path d="M8 5v14l11-7z" />
-              </svg>
+              <h2 className="font-display text-white text-sm leading-tight tracking-tight truncate group-hover:text-zinc-300 transition-colors">
+                {set.name}
+              </h2>
+              {(set.genre ?? set.location) ? (
+                <p className="text-[11px] text-zinc-500 leading-snug mt-0.5 truncate group-hover:text-zinc-400 transition-colors">
+                  {set.genre && set.location
+                    ? `${set.genre} from ${set.location}`
+                    : (set.genre ?? set.location)}
+                  <span className="ml-1.5 text-zinc-600">▶</span>
+                </p>
+              ) : null}
             </button>
-          ) : null}
-
-          <div className="flex-1 min-w-0">
-            <p className="text-xs text-zinc-500 tabular-nums">
-              {set.startTime}
-              <span className="mx-1 text-zinc-700">–</span>
-              {set.endTime}
-            </p>
-            <h2 className="font-display text-white text-sm leading-tight tracking-tighter truncate">
-              {set.name}
-            </h2>
-            {set.description ? (
-              <p className="mt-1 text-xs text-zinc-500 leading-snug line-clamp-2">
-                {set.description}
-              </p>
-            ) : null}
-          </div>
+          ) : (
+            <>
+              <h2 className="font-display text-white text-sm leading-tight tracking-tight truncate">
+                {set.name}
+              </h2>
+              {(set.genre ?? set.location) ? (
+                <p className="text-[11px] text-zinc-500 leading-snug mt-0.5 truncate">
+                  {set.genre && set.location
+                    ? `${set.genre} from ${set.location}`
+                    : (set.genre ?? set.location)}
+                </p>
+              ) : null}
+            </>
+          )}
         </div>
 
         <button
