@@ -90,7 +90,10 @@ export default function YouTubeModal({
       />
 
       {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 safe-area-insets">
+      <div
+        onClick={onClose}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 safe-area-insets"
+      >
         <div
           className="relative w-full max-w-2xl bg-zinc-900 rounded-xl overflow-hidden shadow-2xl"
           onClick={(e) => e.stopPropagation()}
