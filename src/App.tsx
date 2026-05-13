@@ -3,10 +3,10 @@ import {
   DragOverlay,
   MouseSensor,
   TouchSensor,
-  type DragMoveEvent,
-  type DragStartEvent,
   useSensor,
   useSensors,
+  type DragMoveEvent,
+  type DragStartEvent,
 } from "@dnd-kit/core";
 import { useEffect, useRef, useState } from "react";
 import CountdownBanner from "./components/CountdownBanner";

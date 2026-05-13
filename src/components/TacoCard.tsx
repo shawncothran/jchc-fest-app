@@ -42,7 +42,7 @@ export default function TacoCard({
         {/* Content */}
         <div className="flex-1 min-w-0">
           <p className="text-xs text-zinc-500 tabular-nums">{windowLabel}</p>
-          <h2 className="font-display text-white text-base leading-tight truncate">
+          <h2 className="font-display text-white text-sm leading-tight tracking-tighter truncate">
             Shove-It Tacos
           </h2>
           <p className="text-xs text-zinc-500 leading-snug">Taco Break</p>

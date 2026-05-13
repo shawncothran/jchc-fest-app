@@ -37,7 +37,7 @@ export default function FilterTabs({
                 : "text-zinc-500 border-transparent hover:text-zinc-300"
             }`}
           >
-            Must-See
+            Can&apos;t Miss
             {favoriteCount > 0 && (
               <span
                 className={`text-xs font-bold px-1.5 py-0.5 rounded-full min-w-5 text-center leading-none ${

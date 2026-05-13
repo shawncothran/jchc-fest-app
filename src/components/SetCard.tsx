@@ -61,7 +61,7 @@ export default function SetCard({
             <span className="mx-1 text-zinc-700">–</span>
             {set.endTime}
           </p>
-          <h2 className="font-display text-white text-base leading-tight truncate">
+          <h2 className="font-display text-white text-sm leading-tight tracking-tighter truncate">
             {set.name}
           </h2>
           {set.description && (

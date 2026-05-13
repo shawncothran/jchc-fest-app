@@ -51,3 +51,8 @@ body {
 .font-display {
   font-family: var(--font-display);
 }
+
+/* ── Custom tracking: tighter than Tailwind's default tracking-tight ─────── */
+.tracking-tighter {
+  letter-spacing: -0.03em;
+}

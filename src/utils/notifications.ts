@@ -60,6 +60,9 @@ export function scheduleReminder(
   bandName: string,
   startMinutes: number
 ): void {
+  if (!notificationsSupported()) {
+    return;
+  }
   clearReminder(setId);
 
   // Build target reminder Date: festival day at (startMinutes - 15 min)
@@ -73,7 +76,7 @@ export function scheduleReminder(
   } // already past – don't schedule
 
   const timer = setTimeout(() => {
-    if (Notification.permission === "granted") {
+    if (notificationsSupported() && Notification.permission === "granted") {
       new Notification("JCHC Fest — Up Next! 🤘", {
         body: `${bandName} starts in 15 minutes. Get to the pit!`,
         icon: "/icons/icon-192x192.png",
@@ -82,9 +85,6 @@ export function scheduleReminder(
       });
     }
     scheduledTimers.delete(setId);
-
-    // TODO: Replace / augment with a web-push subscription call here
-    // sendPushSubscriptionToBackend({ setId, bandName, startMinutes })
   }, msUntilReminder);
 
   scheduledTimers.set(setId, timer);
@@ -110,7 +110,7 @@ export function syncReminders(
   // Clear all existing timers first
   scheduledTimers.forEach((_, id) => clearReminder(id));
 
-  if (Notification.permission !== "granted") {
+  if (!notificationsSupported() || Notification.permission !== "granted") {
     return;
   }
 
@@ -131,7 +131,10 @@ export function syncReminders(
       const msUntilReminder = reminderTime.getTime() - Date.now();
       if (msUntilReminder > 0) {
         const timer = setTimeout(() => {
-          if (Notification.permission === "granted") {
+          if (
+            notificationsSupported() &&
+            Notification.permission === "granted"
+          ) {
             new Notification("JCHC Fest — Taco Time Soon! 🌮", {
               body: "Your taco window opens in 15 minutes. Get your order in!",
               icon: "/icons/icon-192x192.png",
