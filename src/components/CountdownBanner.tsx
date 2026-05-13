@@ -12,7 +12,6 @@ function pad(n: number) {
   return String(n).padStart(2, "0");
 }
 
-/** Format a millisecond duration into a human-readable string */
 function formatMs(ms: number): string {
   if (ms <= 0) {
     return "0:00";
@@ -34,7 +33,6 @@ function formatMs(ms: number): string {
   return `${secs}s`;
 }
 
-/** Parse a display time string ("11:30 AM") to a Date on the festival day */
 function festivalTime(timeStr: string): Date {
   const [timePart, period] = timeStr.split(" ");
   const [h, m] = timePart.split(":").map(Number);
@@ -50,12 +48,9 @@ function festivalTime(timeStr: string): Date {
   return d;
 }
 
-/** Minutes since midnight for a given Date */
 function toMinutes(d: Date) {
   return d.getHours() * 60 + d.getMinutes();
 }
-
-// ── Countdown logic ───────────────────────────────────────────────────────────
 
 interface CountdownState {
   label: string;
@@ -69,7 +64,6 @@ function computeCountdown(now: Date, favorites: Set<number>): CountdownState {
   const nowMs = now.getTime();
   const nowMin = toMinutes(now);
 
-  // ── Before festival day ───────────────────────────────────────────────────
   const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
   if (todayStr < FESTIVAL_DATE) {
     const msUntilDoors = festivalStart.getTime() - nowMs;
@@ -79,9 +73,7 @@ function computeCountdown(now: Date, favorites: Set<number>): CountdownState {
     };
   }
 
-  // ── Festival day ──────────────────────────────────────────────────────────
   if (todayStr === FESTIVAL_DATE) {
-    // Before doors
     if (nowMs < festivalStart.getTime()) {
       return {
         label: "Doors open in",
@@ -89,22 +81,18 @@ function computeCountdown(now: Date, favorites: Set<number>): CountdownState {
       };
     }
 
-    // After last set
     if (nowMs >= festivalEnd.getTime()) {
       return { label: "That's a wrap!", value: "🤘", sub: "See you next year" };
     }
 
-    // Find currently playing set
     const playingSet = sets.find(
       (s) => nowMin >= s.startMinutes && nowMin < s.endMinutes
     );
 
-    // Upcoming favorited sets
     const upcomingFavs = sets.filter(
       (s) => favorites.has(s.id) && s.startMinutes > nowMin
     );
 
-    // Next favorited set takes priority
     if (upcomingFavs.length > 0) {
       const next: ScheduleSet = upcomingFavs[0];
       const nextTime = festivalTime(next.startTime);
@@ -115,7 +103,6 @@ function computeCountdown(now: Date, favorites: Set<number>): CountdownState {
       };
     }
 
-    // Currently playing
     if (playingSet) {
       const endsAt = festivalTime(playingSet.endTime);
       return {
@@ -125,7 +112,6 @@ function computeCountdown(now: Date, favorites: Set<number>): CountdownState {
       };
     }
 
-    // Between sets — next set up
     const nextSet = sets.find((s) => s.startMinutes > nowMin);
     if (nextSet) {
       const nextTime = festivalTime(nextSet.startTime);
@@ -137,11 +123,8 @@ function computeCountdown(now: Date, favorites: Set<number>): CountdownState {
     }
   }
 
-  // ── After festival ────────────────────────────────────────────────────────
   return { label: "That's a wrap!", value: "🤘", sub: "See you next year" };
 }
-
-// ── Component ─────────────────────────────────────────────────────────────────
 
 interface CountdownBannerProps {
   favorites: Set<number>;

@@ -40,7 +40,6 @@ export default function SetCard({
       <div
         className={`flex items-center gap-3 px-3 ${isActive ? "pt-7 pb-3" : "py-3"}`}
       >
-        {/* Band image / placeholder */}
         {set.imageUrl ? (
           <img
             src={set.imageUrl}
@@ -56,9 +55,7 @@ export default function SetCard({
           </div>
         )}
 
-        {/* Main content — flex container for play button + text info */}
         <div className="flex-1 min-w-0 flex items-start gap-2">
-          {/* Video play button — only if available */}
           {set.youtubeUrl ? (
             <button
               onClick={onPlayVideo}
@@ -77,7 +74,6 @@ export default function SetCard({
             </button>
           ) : null}
 
-          {/* Band info */}
           <div className="flex-1 min-w-0">
             <p className="text-xs text-zinc-500 tabular-nums">
               {set.startTime}
@@ -95,7 +91,6 @@ export default function SetCard({
           </div>
         </div>
 
-        {/* Favorite toggle — furthest right */}
         <button
           onClick={onToggle}
           aria-label={
@@ -111,7 +106,6 @@ export default function SetCard({
           }`}
         >
           {isFavorite ? (
-            // Filled heart
             <svg
               viewBox="0 0 24 24"
               fill="currentColor"
@@ -121,7 +115,6 @@ export default function SetCard({
               <path d="M11.6 21v-.1l-.4-.2A25 25 0 0 1 7 17.5c-2.3-2.1-4.7-5.3-4.7-9.2 0-3 2.4-5.3 5.4-5.3A6 6 0 0 1 12 5a6 6 0 0 1 4.3-2c3 0 5.4 2.3 5.4 5.3 0 3.9-2.4 7-4.7 9.2a25 25 0 0 1-4.2 3.2l-.4.2h-.8" />
             </svg>
           ) : (
-            // Outline heart
             <svg
               viewBox="0 0 24 24"
               fill="none"

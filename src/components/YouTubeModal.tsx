@@ -14,7 +14,7 @@ export default function YouTubeModal({
   onClose,
 }: YouTubeModalProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  // Extract video ID from various YouTube URL formats
+
   function extractVideoId(url: string): string | null {
     const patterns = [
       /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
@@ -31,7 +31,6 @@ export default function YouTubeModal({
 
   const videoId = extractVideoId(youtubeUrl);
 
-  // Close on Escape key
   useEffect(() => {
     if (!isOpen) {
       return;
