@@ -14,7 +14,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.svg", "icons/*.png"],
+      includeAssets: ["icons/*.png"],
       manifest: {
         name: `${FESTIVAL_NAME} ${FESTIVAL_YEAR} — Schedule`,
         short_name: FESTIVAL_NAME,

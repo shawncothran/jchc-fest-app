@@ -75,8 +75,8 @@ function buildItems(
       tacoPlaced = true;
     }
   }
-  // In all-sets view always show the taco card, even if its anchor set is hidden
-  if (!tacoPlaced && filter === "all") {
+  // Always show the taco card, even if its anchor set isn't visible
+  if (!tacoPlaced) {
     items.push({ type: "taco" });
   }
   return items;

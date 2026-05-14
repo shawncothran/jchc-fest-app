@@ -50,26 +50,19 @@ Only **public-facing sets** go here. Load in, soundcheck, and doors are intentio
 
 ## PWA Icons
 
-Placeholder icons live in `public/icons/`. To regenerate them:
+Source artwork lives in `src/assets/icon.png`. To regenerate the sized PWA icons:
 
 ```bash
 node scripts/generate-icons.cjs
 ```
 
-For production, replace `public/icons/icon-192x192.png`, `icon-512x512.png`, and `apple-touch-icon.png` with real artwork (dark background, recognizable at small sizes).
+This produces `icon-192x192.png`, `icon-512x512.png`, and `apple-touch-icon.png` in `public/icons/`.
 
 ---
 
-## Deploying to Vercel
+## Deploying to Netlify
 
-1. Push this repo to GitHub
-2. Go to [vercel.com](https://vercel.com) → **Add New Project** → import the repo
-3. Vercel auto-detects Vite — no config needed
-4. Set a custom domain: `app.jchcfest.com`
-   - In Vercel: **Project → Settings → Domains → Add**
-   - In your DNS (wherever jchcfest.com is managed): add a `CNAME` record pointing `app` → `cname.vercel-dns.com`
-
-That's it — every push to `main` auto-deploys.
+Hosted on Netlify — see `netlify.toml` for build config. Every push to `main` auto-deploys.
 
 ---
 
