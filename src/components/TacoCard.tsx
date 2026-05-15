@@ -1,4 +1,11 @@
 import { useDraggable } from "@dnd-kit/core";
+import CardRow, {
+  cardIconCx,
+  cardMetaCx,
+  cardTextStackCx,
+  cardTimeCx,
+  cardTitleCx,
+} from "./CardRow";
 
 interface TacoCardProps {
   windowLabel: string;
@@ -19,7 +26,7 @@ export default function TacoCard({
       ref={overlay || ghost ? undefined : setNodeRef}
       {...(overlay || ghost ? {} : listeners)}
       style={{ touchAction: "none" }}
-      className={`rounded-xl border-2 border-dashed border-zinc-700/30 bg-zinc-900/60 transition-colors select-none ${
+      className={`rounded-xl border-[3px] border-dashed border-zinc-700/50 bg-zinc-950 transition-colors select-none ${
         ghost
           ? "opacity-30 pointer-events-none"
           : overlay
@@ -30,27 +37,26 @@ export default function TacoCard({
       }`}
       aria-label="Taco break — drag to move in the schedule"
     >
-      <div className="flex items-center gap-3 px-3 py-3">
-        {/* Taco icon — same size as band image in SetCard */}
+      <CardRow>
         <div
-          className="w-12 h-12 rounded-lg shrink-0 bg-zinc-800/30 flex items-center justify-center text-2xl select-none"
-          aria-hidden="true"
+          className={`${cardIconCx} bg-zinc-800 flex items-center justify-center p-1`}
         >
-          🌮
+          <img
+            src="/logos/shove-it-tacos.png"
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-contain"
+          />
         </div>
 
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <p className="text-xs text-zinc-500 tabular-nums">{windowLabel}</p>
-          <h2 className="font-display text-white text-sm leading-tight tracking-tighter truncate">
-            Shove-It Tacos
-          </h2>
-          <p className="text-xs text-zinc-500 leading-snug">Taco Break</p>
+        <div className={`${cardTextStackCx} flex-1 min-w-0`}>
+          <p className={cardTimeCx}>{windowLabel}</p>
+          <h2 className={`${cardTitleCx} tracking-tighter`}>Taco Break 🌮</h2>
+          <p className={cardMetaCx}>Shove-It Tacos</p>
         </div>
 
-        {/* Drag handle */}
         <div
-          className="shrink-0 w-9 text-zinc-600 flex flex-col gap-0.5 px-1 items-center justify-center"
+          className="shrink-0 w-8 sm:w-9 flex flex-col gap-0.5 px-1 items-center justify-center"
           aria-hidden="true"
         >
           {[0, 1, 2, 3].map((i) => (
@@ -60,7 +66,7 @@ export default function TacoCard({
             </div>
           ))}
         </div>
-      </div>
+      </CardRow>
     </div>
   );
 }

@@ -44,6 +44,7 @@ const rawSets = [
     end: "12:20 PM",
     genre: "Hardcore Punk",
     location: "USA",
+    imageUrl: "/logos/nomads.png",
   },
   {
     id: 2,
@@ -52,6 +53,7 @@ const rawSets = [
     end: "1:00 PM",
     genre: "Thrash Metal",
     location: "Inland Empire, CA",
+    imageUrl: "/logos/saul-of-tarsus.png",
     youtubeUrl: "https://www.youtube.com/watch?v=zoSQJn3GVRg",
   },
   {
@@ -61,6 +63,7 @@ const rawSets = [
     end: "1:45 PM",
     genre: "Melodic Hardcore",
     location: "Orange County, CA",
+    imageUrl: "/logos/dear-adversary.png",
     youtubeUrl: "https://www.youtube.com/watch?v=5OveDj52RDo",
   },
   {
@@ -70,6 +73,7 @@ const rawSets = [
     end: "2:30 PM",
     genre: "Punk Rock",
     location: "CA / AZ",
+    imageUrl: "/logos/headnoise.png",
     youtubeUrl: "https://www.youtube.com/watch?v=NJ8zfSJvl78",
   },
   {
@@ -79,6 +83,7 @@ const rawSets = [
     end: "3:15 PM",
     genre: "Hardcore / Metal",
     location: "Las Vegas, NV",
+    imageUrl: "/logos/take.png",
     youtubeUrl: "https://www.youtube.com/watch?v=_VvHPIG2Iy4",
   },
   {
@@ -88,6 +93,7 @@ const rawSets = [
     end: "4:00 PM",
     genre: "Pop Punk",
     location: "Sacramento, CA",
+    imageUrl: "/logos/light-the-way.png",
     youtubeUrl: "https://www.youtube.com/watch?v=jJR3HBgr-8Q",
   },
   {
@@ -97,6 +103,7 @@ const rawSets = [
     end: "4:45 PM",
     genre: "Emo / Alternative Rock",
     location: "San Luis Obispo, CA",
+    imageUrl: "/logos/watashi-wa.png",
     youtubeUrl: "https://www.youtube.com/watch?v=WVkPRCgAt5k",
   },
   {
@@ -106,6 +113,7 @@ const rawSets = [
     end: "5:30 PM",
     genre: "Metallic Hardcore",
     location: "Pacific Northwest",
+    imageUrl: "/logos/deathbreaker.png",
     youtubeUrl: "https://www.youtube.com/watch?v=S3Qvz8bvu74",
   },
   {
@@ -115,6 +123,7 @@ const rawSets = [
     end: "6:15 PM",
     genre: "Violent Praise Hardcore",
     location: "Belfast, Northern Ireland",
+    imageUrl: "/logos/barriers.png",
     youtubeUrl: "https://www.youtube.com/watch?v=LojNBYf5O7k",
   },
   {
@@ -124,6 +133,7 @@ const rawSets = [
     end: "7:10 PM",
     genre: "Straight Edge Hardcore",
     location: "Riverside, CA",
+    imageUrl: "/logos/xdoulosx.png",
     youtubeUrl: "https://www.youtube.com/watch?v=wI76_kmc2RQ",
   },
   {
@@ -133,6 +143,7 @@ const rawSets = [
     end: "8:05 PM",
     genre: "Metalcore",
     location: "Columbus, OH",
+    imageUrl: "/logos/symphony-in-peril.png",
     youtubeUrl: "https://www.youtube.com/watch?v=VTWkGbngn2I",
   },
   {
@@ -142,6 +153,7 @@ const rawSets = [
     end: "9:00 PM",
     genre: "Hardcore Punk / Crossover",
     location: "Ventura, CA",
+    imageUrl: "/logos/officer-negative.png",
     youtubeUrl: "https://www.youtube.com/watch?v=Yy-mBCuDtBQ",
   },
   {
@@ -149,8 +161,9 @@ const rawSets = [
     name: "Cultist",
     start: "9:15 PM",
     end: "10:00 PM",
-    genre: "Beatdown Hardcore / Deathcore",
+    genre: "Beatdown / Deathcore",
     location: "Inland Empire, CA",
+    imageUrl: "/logos/cultist.png",
     youtubeUrl: "https://www.youtube.com/watch?v=05zLI6_Fr7A",
   },
 ];
@@ -164,5 +177,6 @@ export const sets: ScheduleSet[] = rawSets.map((s) => ({
   endMinutes: toMinutes(s.end),
   genre: s.genre,
   location: s.location,
+  imageUrl: s.imageUrl,
   youtubeUrl: s.youtubeUrl,
 }));

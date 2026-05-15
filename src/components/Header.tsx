@@ -7,8 +7,8 @@ import {
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-zinc-950 border-b border-zinc-800 shadow-xl">
-      <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-zinc-950 border-b border-zinc-800 shadow-xl pt-[env(safe-area-inset-top)]">
+      <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl sm:text-3xl text-white leading-none tracking-tight">
             {FESTIVAL_NAME}

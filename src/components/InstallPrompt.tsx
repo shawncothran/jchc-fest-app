@@ -121,7 +121,7 @@ export default function InstallPrompt() {
 
   return (
     <div className="border-b border-zinc-800 bg-zinc-900">
-      <div className="max-w-2xl mx-auto px-4 py-3 flex items-start gap-3">
+      <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 flex items-start gap-2 sm:gap-3">
         {/* Icon */}
         <img
           src="/icons/icon-192x192.png"

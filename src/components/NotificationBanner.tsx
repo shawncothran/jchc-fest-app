@@ -19,7 +19,7 @@ export default function NotificationBanner({
 
   return (
     <div className="bg-zinc-900 border-b border-zinc-800">
-      <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
+      <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 flex items-center gap-2 sm:gap-3">
         {/* Bell icon */}
         <svg
           viewBox="0 0 24 24"

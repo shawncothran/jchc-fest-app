@@ -27,7 +27,7 @@ export default function ScheduleList({
   showGhost,
 }: ScheduleListProps) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3.5">
       {items.map((item) =>
         item.type === "taco" ? (
           showGhost ? (
