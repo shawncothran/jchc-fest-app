@@ -61,10 +61,29 @@ function getActiveSetId(): number | null {
 
 type ScheduleItem = { type: "set"; set: ScheduleSet } | { type: "taco" };
 
+/**
+ * Find the insertion index for the taco among visible sets when its anchor
+ * set isn't in the list (e.g. not favorited). Returns the index in
+ * visibleSets after which the taco should appear, or -1 for the beginning.
+ */
+function findTacoInsertIndex(
+  visibleSets: ScheduleSet[],
+  tacoAfterSetId: number
+): number {
+  const anchorIndex = sets.findIndex((s) => s.id === tacoAfterSetId);
+  let insertAfterIdx = -1;
+  for (let i = 0; i < visibleSets.length; i++) {
+    const setIndex = sets.findIndex((s) => s.id === visibleSets[i].id);
+    if (setIndex <= anchorIndex) {
+      insertAfterIdx = i;
+    }
+  }
+  return insertAfterIdx;
+}
+
 function buildItems(
   visibleSets: ScheduleSet[],
-  tacoAfterSetId: number,
-  filter: FilterValue
+  tacoAfterSetId: number
 ): ScheduleItem[] {
   const items: ScheduleItem[] = [];
   let tacoPlaced = false;
@@ -75,9 +94,9 @@ function buildItems(
       tacoPlaced = true;
     }
   }
-  // Always show the taco card, even if its anchor set isn't visible
   if (!tacoPlaced) {
-    items.push({ type: "taco" });
+    const insertPos = findTacoInsertIndex(visibleSets, tacoAfterSetId) + 1;
+    items.splice(insertPos, 0, { type: "taco" });
   }
   return items;
 }
@@ -124,7 +143,7 @@ function ScheduleContent({
   const visibleSets =
     filter === "all" ? sets : sets.filter((s) => isFavorite(s.id));
 
-  const items = buildItems(visibleSets, displayPosition, filter);
+  const items = buildItems(visibleSets, displayPosition);
 
   const cardInfoRef = useRef<{ height: number; tacoIndex: number } | null>(
     null
