@@ -129,8 +129,8 @@ const rawSets = [
   {
     id: 10,
     name: "xDOULOSx",
-    start: "6:35 PM",
-    end: "7:10 PM",
+    start: "6:30 PM",
+    end: "7:05 PM",
     genre: "Straight Edge Hardcore",
     location: "Riverside, CA",
     imageUrl: "/logos/xdoulosx.png",

@@ -22,6 +22,17 @@
 
 import { FESTIVAL_DATE } from "../data/schedule";
 
+function getLocalIsoDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function isFestivalDay(date: Date = new Date()): boolean {
+  return getLocalIsoDate(date) === FESTIVAL_DATE;
+}
+
 export function notificationsSupported(): boolean {
   return typeof window !== "undefined" && "Notification" in window;
 }
@@ -63,6 +74,12 @@ export function scheduleReminder(
   if (!notificationsSupported()) {
     return;
   }
+
+  // Only allow reminders to be scheduled on the actual festival day.
+  if (!isFestivalDay()) {
+    return;
+  }
+
   clearReminder(setId);
 
   // Build target reminder Date: festival day at (startMinutes - 15 min)
@@ -111,6 +128,10 @@ export function syncReminders(
   scheduledTimers.forEach((_, id) => clearReminder(id));
 
   if (!notificationsSupported() || Notification.permission !== "granted") {
+    return;
+  }
+
+  if (!isFestivalDay()) {
     return;
   }
 

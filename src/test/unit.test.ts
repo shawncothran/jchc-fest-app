@@ -55,7 +55,7 @@ describe("useFavorites", () => {
 
 describe("taco time utilities", () => {
   it("uses the biggest gap by default", () => {
-    expect(computeTacoAfterSetId(new Set())).toBe(9);
+    expect(computeTacoAfterSetId(new Set())).toBe(10);
   });
 
   it("uses the free window when favorites are outside that window", () => {
@@ -63,11 +63,11 @@ describe("taco time utilities", () => {
   });
 
   it("keeps biggest gap when any favorite is in the window", () => {
-    expect(computeTacoAfterSetId(new Set([8]))).toBe(9);
+    expect(computeTacoAfterSetId(new Set([8]))).toBe(10);
   });
 
   it("builds the visible taco break window label", () => {
-    expect(getTacoWindowLabel(9)).toBe("6:15 PM – 6:35 PM");
+    expect(getTacoWindowLabel(10)).toBe("7:05 PM – 7:25 PM");
   });
 
   it("returns empty label when anchor set is missing", () => {
@@ -142,6 +142,31 @@ describe("notifications utilities", () => {
     vi.useRealTimers();
   });
 
+  it("does not schedule reminders when it is not festival day", () => {
+    const created: Array<{ title: string; body?: string }> = [];
+    function NotificationCtor(title: string, options?: NotificationOptions) {
+      created.push({ title, body: options?.body });
+    }
+    Object.assign(NotificationCtor, {
+      permission: "granted",
+      requestPermission: () => Promise.resolve("granted"),
+    });
+    Object.defineProperty(globalThis, "Notification", {
+      configurable: true,
+      value: NotificationCtor,
+    });
+
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-07-17T00:00:00"));
+
+    scheduleReminder(100, "Test Band", 60);
+    vi.advanceTimersByTime(24 * 60 * 60 * 1000);
+
+    expect(created).toHaveLength(0);
+
+    vi.useRealTimers();
+  });
+
   it("syncs reminders only for favorited sets", () => {
     const created: string[] = [];
     function NotificationCtor(title: string) {
@@ -174,6 +199,39 @@ describe("notifications utilities", () => {
     expect(created.some((title) => title.includes("Taco Time Soon"))).toBe(
       true
     );
+
+    vi.useRealTimers();
+  });
+
+  it("does not sync reminders when it is not festival day", () => {
+    const created: string[] = [];
+    function NotificationCtor(title: string) {
+      created.push(title);
+    }
+    Object.assign(NotificationCtor, {
+      permission: "granted",
+      requestPermission: () => Promise.resolve("granted"),
+    });
+    Object.defineProperty(globalThis, "Notification", {
+      configurable: true,
+      value: NotificationCtor,
+    });
+
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-07-17T00:00:00"));
+
+    syncReminders(
+      new Set([1]),
+      [
+        { id: 1, name: "Nomads", startMinutes: 60, endMinutes: 80 },
+        { id: 2, name: "Other", startMinutes: 120, endMinutes: 140 },
+      ],
+      1
+    );
+
+    vi.advanceTimersByTime(70 * 60 * 1000);
+
+    expect(created).toHaveLength(0);
 
     vi.useRealTimers();
   });
