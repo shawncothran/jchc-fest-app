@@ -67,7 +67,7 @@ describe("taco time utilities", () => {
   });
 
   it("builds the visible taco break window label", () => {
-    expect(getTacoWindowLabel(10)).toBe("7:05 PM – 7:25 PM");
+    expect(getTacoWindowLabel(10)).toBe("7:05 PM - 7:25 PM");
   });
 
   it("returns empty label when anchor set is missing", () => {

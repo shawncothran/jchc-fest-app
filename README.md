@@ -40,7 +40,7 @@ All schedule data lives in **`src/data/schedule.ts`**.
   end: '12:20 PM',
   genre: 'Hardcore',        // optional
   description: '...',       // optional
-  imageUrl: '/bands/band.jpg', // optional – place images in public/bands/
+  imageUrl: '/bands/band.jpg', // optional - place images in public/bands/
 }
 ```
 

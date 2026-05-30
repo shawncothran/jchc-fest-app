@@ -37,8 +37,63 @@
       content="Heavy music, Christ at the center."
     />
     <meta property="og:url" content="https://app.jchcfest.com" />
+
+    <style>
+      body {
+        margin: 0;
+        background: #09090b;
+        color: #fff;
+      }
+
+      body:not(.app-ready) #root {
+        visibility: hidden;
+      }
+
+      #app-loader {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: #09090b;
+        z-index: 9999;
+        transition: opacity 180ms ease;
+      }
+
+      body.app-ready #app-loader {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .app-loader__logo {
+        width: 68px;
+        height: 68px;
+        border-radius: 14px;
+        filter: drop-shadow(0 8px 20px rgba(231, 54, 104, 0.35));
+        animation: app-loader-pulse 0.95s ease-in-out infinite alternate;
+      }
+
+      @keyframes app-loader-pulse {
+        from {
+          transform: scale(0.94);
+          opacity: 0.82;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="app-loader" aria-label="Loading" role="status">
+      <img
+        class="app-loader__logo"
+        src="/icons/loader-64.webp"
+        alt="JCHC Fest"
+        width="56"
+        height="56"
+      />
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

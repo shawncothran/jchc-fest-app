@@ -1,4 +1,10 @@
-import { Component, StrictMode, type ErrorInfo, type ReactNode } from "react";
+import {
+  Component,
+  StrictMode,
+  useEffect,
+  type ErrorInfo,
+  type ReactNode,
+} from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
@@ -65,9 +71,62 @@ class ErrorBoundary extends Component<
   }
 }
 
+function AppReadySignal() {
+  useEffect(() => {
+    const MIN_LOADER_MS = 700;
+    let cancelled = false;
+
+    const loader = document.getElementById("app-loader");
+
+    const removeLoader = () => {
+      if (loader) {
+        loader.remove();
+      }
+    };
+
+    const minDelay = new Promise<void>((resolve) => {
+      window.setTimeout(resolve, MIN_LOADER_MS);
+    });
+
+    const pageLoaded =
+      document.readyState === "complete"
+        ? Promise.resolve()
+        : new Promise<void>((resolve) => {
+            window.addEventListener("load", () => resolve(), { once: true });
+          });
+
+    const fontsReady =
+      "fonts" in document
+        ? document.fonts.ready.then(() => undefined).catch(() => undefined)
+        : Promise.resolve();
+
+    void Promise.all([minDelay, pageLoaded, fontsReady]).then(() => {
+      if (cancelled) {
+        return;
+      }
+
+      document.body.classList.add("app-ready");
+
+      if (!loader) {
+        return;
+      }
+
+      loader.addEventListener("transitionend", removeLoader, { once: true });
+      window.setTimeout(removeLoader, 400);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return null;
+}
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ErrorBoundary>
+      <AppReadySignal />
       <App />
     </ErrorBoundary>
   </StrictMode>

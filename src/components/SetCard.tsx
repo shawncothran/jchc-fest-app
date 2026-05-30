@@ -97,7 +97,7 @@ export default function SetCard({
         <div className={`${cardTextStackCx} flex-1 min-w-0`}>
           <p className={cardTimeCx}>
             {set.startTime}
-            <span className={cardTimeDashCx}>–</span>
+            <span className={cardTimeDashCx}>-</span>
             {set.endTime}
           </p>
           <h2 className={cardTitleCx}>{set.name}</h2>

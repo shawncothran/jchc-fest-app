@@ -4,7 +4,7 @@
  * Handles browser notification permissions and local reminder scheduling.
  *
  * Current implementation: browser-local setTimeout scheduling.
- * Reminders fire 15 minutes before each favorited set — but only while the
+ * Reminders fire 15 minutes before each favorited set - but only while the
  * browser tab is open.
  *
  * TODO: True web-push (works when browser is closed)
@@ -90,11 +90,11 @@ export function scheduleReminder(
 
   if (msUntilReminder <= 0) {
     return;
-  } // already past – don't schedule
+  } // already past - don't schedule
 
   const timer = setTimeout(() => {
     if (notificationsSupported() && Notification.permission === "granted") {
-      new Notification("JCHC Fest — Up Next! 🤘", {
+      new Notification("JCHC Fest - Up Next! 🤘", {
         body: `${bandName} starts in 15 minutes. Get to the pit!`,
         icon: "/icons/icon-192x192.png",
         badge: "/icons/icon-192x192.png",
@@ -156,7 +156,7 @@ export function syncReminders(
             notificationsSupported() &&
             Notification.permission === "granted"
           ) {
-            new Notification("JCHC Fest — Taco Time Soon! 🌮", {
+            new Notification("JCHC Fest - Taco Time Soon! 🌮", {
               body: "Your taco window opens in 15 minutes. Get your order in!",
               icon: "/icons/icon-192x192.png",
               badge: "/icons/icon-192x192.png",

@@ -3,7 +3,7 @@ export interface ScheduleSet {
   name: string;
   startTime: string; // display string, e.g. "12:00 PM"
   endTime: string; // display string, e.g. "12:20 PM"
-  startMinutes: number; // minutes from midnight – used for sorting & notification scheduling
+  startMinutes: number; // minutes from midnight - used for sorting & notification scheduling
   endMinutes: number;
   description?: string;
   imageUrl?: string;
@@ -12,8 +12,8 @@ export interface ScheduleSet {
   youtubeUrl?: string; // YouTube video URL for band discovery
 }
 
-export const FESTIVAL_DATE = "2026-07-18"; // ISO date string – update each year
-export const FESTIVAL_DATE_DISPLAY = "July 18"; // human-readable – update each year
+export const FESTIVAL_DATE = "2026-07-18"; // ISO date string - update each year
+export const FESTIVAL_DATE_DISPLAY = "July 18"; // human-readable - update each year
 export const FESTIVAL_NAME = "JCHC Fest";
 export const FESTIVAL_YEAR = "2026";
 export const DOORS_OPEN = "11:30 AM";

@@ -35,7 +35,7 @@ export default function TacoCard({
               ? "opacity-20 cursor-grab active:cursor-grabbing hover:border-zinc-600/40"
               : "cursor-grab active:cursor-grabbing hover:border-zinc-600/40"
       }`}
-      aria-label="Taco break — drag to move in the schedule"
+      aria-label="Taco break - drag to move in the schedule"
     >
       <CardRow>
         <div

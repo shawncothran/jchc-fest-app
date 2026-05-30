@@ -126,7 +126,7 @@ function ScheduleContent({
   const [isDragging, setIsDragging] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSet, setSelectedSet] = useState<ScheduleSet | null>(null);
-  // Preview position while dragging — moves in real-time as cursor hovers sets
+  // Preview position while dragging - moves in real-time as cursor hovers sets
   const [previewPosition, setPreviewPosition] = useState<number | null>(null);
 
   // Sensors: mouse for desktop, touch with delay for iOS (prevents scroll hijack)
@@ -277,7 +277,7 @@ function ScheduleContent({
 
 export default function App() {
   useEffect(() => {
-    document.title = `${FESTIVAL_NAME} ${FESTIVAL_YEAR} — Schedule`;
+    document.title = `${FESTIVAL_NAME} ${FESTIVAL_YEAR} - Schedule`;
     const metaDescription = document.querySelector(
       'meta[name="description"]'
     ) as HTMLMetaElement;
@@ -291,7 +291,7 @@ export default function App() {
       metaDescription.content = `Official schedule for ${FESTIVAL_NAME} ${FESTIVAL_YEAR}. Heavy music, Christ at the center. ${FESTIVAL_DATE_DISPLAY}.`;
     }
     if (ogTitle) {
-      ogTitle.content = `${FESTIVAL_NAME} ${FESTIVAL_YEAR} — Schedule`;
+      ogTitle.content = `${FESTIVAL_NAME} ${FESTIVAL_YEAR} - Schedule`;
     }
     if (ogDescription) {
       ogDescription.content = `Heavy music, Christ at the center. ${FESTIVAL_DATE_DISPLAY}, ${FESTIVAL_YEAR}.`;
@@ -305,7 +305,7 @@ export default function App() {
   >(() => getPermissionStatus());
   const [activeSetId, setActiveSetId] = useState<number | null>(getActiveSetId);
 
-  // Track the active (currently playing) set — updates every 30 seconds
+  // Track the active (currently playing) set - updates every 30 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSetId(getActiveSetId());

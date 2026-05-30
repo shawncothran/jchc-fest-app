@@ -13,7 +13,7 @@ interface ScheduleListProps {
   isFavorite: (id: number) => boolean;
   onToggleFavorite: (id: number) => void;
   onPlayVideo?: (set: ScheduleSet) => void;
-  /** True only when the taco has moved to a new slot — shows ghost placeholder */
+  /** True only when the taco has moved to a new slot - shows ghost placeholder */
   showGhost?: boolean;
 }
 
@@ -31,7 +31,7 @@ export default function ScheduleList({
       {items.map((item) =>
         item.type === "taco" ? (
           showGhost ? (
-            // Ghost placeholder at destination — same size/content as real card
+            // Ghost placeholder at destination - same size/content as real card
             <TacoCard
               key="taco"
               windowLabel={getTacoWindowLabel(tacoAfterSetId)}

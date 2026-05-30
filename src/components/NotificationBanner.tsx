@@ -36,7 +36,7 @@ export default function NotificationBanner({
           />
         </svg>
         <p className="flex-1 text-xs text-zinc-300 leading-snug">
-          <span className="font-bold text-white">Enable Reminders</span> — get
+          <span className="font-bold text-white">Enable Reminders</span> - get
           notified 15 min before your can&apos;t miss sets.
         </p>
         <button

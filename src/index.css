@@ -1,4 +1,4 @@
-/* ── Google Fonts — must precede all other rules ──────────────────────────── */
+/* ── Google Fonts - must precede all other rules ──────────────────────────── */
 @import url("https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Rubik:wght@400;500;700&display=swap");
 
 @import "tailwindcss";
@@ -8,7 +8,7 @@
   --font-sans: "Rubik", system-ui, sans-serif;
   --font-display: "Rubik Mono One", sans-serif;
 
-  /* Brand color — #e73668 and derived shades */
+  /* Brand color - #e73668 and derived shades */
   --color-brand-400: #ee5a84;
   --color-brand-500: #e83d72;
   --color-brand-600: #e73668;
@@ -40,7 +40,7 @@ body {
 
 #root {
   min-height: 100svh;
-  /* Respect iOS safe areas — top is handled by the sticky header */
+  /* Respect iOS safe areas - top is handled by the sticky header */
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
