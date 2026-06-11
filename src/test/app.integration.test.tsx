@@ -1,8 +1,13 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../App";
 import CountdownBanner from "../components/CountdownBanner";
 import InstallPrompt from "../components/InstallPrompt";
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  readonly userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
 
 describe("App flows", () => {
   beforeEach(() => {
@@ -68,20 +73,103 @@ describe("InstallPrompt", () => {
     vi.useRealTimers();
   });
 
-  it("renders iOS install guidance and allows dismiss", () => {
+  function setUserAgent(userAgent: string) {
     Object.defineProperty(navigator, "userAgent", {
       configurable: true,
-      value:
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+      value: userAgent,
     });
+  }
+
+  function createBeforeInstallPromptEvent(): BeforeInstallPromptEvent {
+    const event = new Event("beforeinstallprompt", {
+      bubbles: true,
+      cancelable: true,
+    }) as BeforeInstallPromptEvent;
+
+    Object.defineProperty(event, "prompt", {
+      value: vi.fn().mockResolvedValue(undefined),
+    });
+    Object.defineProperty(event, "userChoice", {
+      value: Promise.resolve({ outcome: "dismissed" as const }),
+    });
+
+    return event;
+  }
+
+  it("renders iOS install guidance and allows dismiss", () => {
+    setUserAgent(
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+    );
 
     render(<InstallPrompt />);
 
     expect(screen.getByText("Add to Home Screen")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "How to" }));
     expect(screen.getByText(/Tap the/)).toBeInTheDocument();
+    expect(screen.getByText(/your browser toolbar/i)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Dismiss" }));
     expect(localStorage.getItem("jchcfest-install-dismissed")).toBe("1");
+  });
+
+  it("shows iOS install guidance in Chrome on iPhone", () => {
+    setUserAgent(
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/126.0.6478.108 Mobile/15E148 Safari/604.1"
+    );
+
+    render(<InstallPrompt />);
+
+    expect(screen.getByText("Add to Home Screen")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "How to" }));
+    expect(screen.getByText(/your browser toolbar/i)).toBeInTheDocument();
+    expect(
+      screen.queryByText(/Open this page in\s+Safari/i)
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows native install guidance when beforeinstallprompt is available", () => {
+    setUserAgent(
+      "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36"
+    );
+
+    render(<InstallPrompt />);
+
+    act(() => {
+      window.dispatchEvent(createBeforeInstallPromptEvent());
+    });
+
+    expect(screen.getByText("Install App")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Use the Install button here, or look for the install icon in the address bar/i
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Install" })).toBeInTheDocument();
+  });
+
+  it("shows desktop install guidance in Chrome fallback", () => {
+    vi.useFakeTimers();
+    setUserAgent(
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    );
+
+    render(<InstallPrompt />);
+
+    act(() => {
+      vi.advanceTimersByTime(500);
+    });
+
+    expect(screen.getByText("Install App")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "How to" }));
+
+    expect(
+      screen.getByText((_, element) => {
+        const textContent = element?.textContent ?? "";
+        return (
+          element?.tagName === "P" &&
+          textContent.includes("Look for an install option in your browser UI")
+        );
+      })
+    ).toBeInTheDocument();
   });
 });
